@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/Hammad-Sheikh2/Dual_Tracking_of_TB_Childhood.git"
   }
 }
