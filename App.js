@@ -1,9 +1,11 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Button, Pressable } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, Button, Touchable } from 'react-native';
 import React , { useState } from 'react';
 import Symptom from './Components/Symptom';
+import { data } from './Data';
 
 export default function App() {
-  const [question, setQuestion] = useState("How serve was your cough?");
+  const [Item, setItem] = useState(data[0]);
+  console.log(data[0])
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -41,7 +43,7 @@ export default function App() {
           paddingVertical:10,
           borderRadius:50
         }}>
-        <Text style={{fontSize:18}}>{question}</Text>
+        <Text style={{fontSize:18}}>{Item.Question.Urdu}</Text>
       </View>
       <View>
         <Image
@@ -53,7 +55,7 @@ export default function App() {
             backgroundColor:'blue'
           }}
           source={
-            require('./LottieFilesGIFs/dry-cough.gif')
+            require(''+Item.Animation)
           }
         />
       </View>
@@ -84,12 +86,12 @@ export default function App() {
             paddingHorizontal:30
           }}
         >
-          <Pressable>
+          <Touchable>
             <Image 
               style = {{width:40,height:30,transform:[{rotate:'180deg'}]}}
               source={require("./LottieFilesGIFs/dry-cough.gif")} 
             />
-          </Pressable>
+          </Touchable>
         </View>
         <View
           style={{
@@ -99,10 +101,10 @@ export default function App() {
             paddingHorizontal:30
           }}
         >
-          <Symptom symptomText='Cough' />
-          <Symptom symptomText='Fever' />
-          <Symptom symptomText='Sweat' />
-          <Symptom symptomText='Cooking' />
+          <Symptom symptomText={data[0].Name} icon={data[0].Icon} />
+          <Symptom symptomText={data[1].Name} icon={data[1].Icon} />
+          <Symptom symptomText={data[2].Name} icon={data[2].Icon} />
+          <Symptom symptomText={data[3].Name} icon={data[3].Icon} />
         </View>
         <View
           style={{
@@ -132,3 +134,9 @@ export default function App() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container:{
+    
+  }
+})
