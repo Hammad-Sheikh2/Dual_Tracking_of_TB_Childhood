@@ -3,12 +3,12 @@ import React from 'react';
 
 export default function Symptom(props) {
     return (
-      <View
+      <View onStartShouldSetResponder={()=>props.setter(props.data)}
         style={styles.container}>
         <View style={styles.IconView}>
           <Image 
             style={styles.IconImage}
-            source={require("."+props.icon)}
+            source={props.Icon}
           />
         </View>
         <View style={styles.ValueView}></View>
@@ -31,12 +31,14 @@ export default function Symptom(props) {
       borderWidth:1,
       backgroundColor:'white',
       position:'relative',
+      justifyContent:'center',
+      alignItems:'center',
       top:10
     },
     IconImage:{
-      width:50,
-      height:50,
-      borderRadius:50/2
+      width:40,
+      height:40,
+      borderRadius:40/2
     },
     ValueView:{
       width:20,

@@ -6,8 +6,8 @@ export let data=[
             Urdu:'آج کھانسی کتنی شدید تھی؟'
         },
         Value:null,
-        Icon:'./Icons/cough.png',
-        Animation:'./LottieFilesGIFs/dry-cough.gif'
+        Icon: require('./Icons/cough.png'),
+        Animation:require('./LottieFilesGIFs/dry-cough.gif')
     },
     {
         Name:'Fever',
@@ -16,8 +16,8 @@ export let data=[
             Urdu:'آج بخار کتنا شدید تھا؟'
         },
         Value:null,
-        Icon:'./Icons/fever.png',
-        Animation:'./LottieFilesGIFs/fever.gif'
+        Icon:require('./Icons/fever.png'),
+        Animation:require('./LottieFilesGIFs/fever.gif')
     },
     {
         Name:'Sweat',
@@ -26,18 +26,8 @@ export let data=[
             Urdu:'کل رات اس نے کتنا پسینہ بہایا؟'
         },
         Value:null,
-        Icon:'./Icons/sweat.png',
-        Animation:'./LottieFilesGIFs/sweat.gif'
-    },
-    {
-        Name:'Playfulness',
-        Question:{
-            English:'How playful was your kid today?',
-            Urdu:'آج آپ کا بچہ کتنا چنچل تھا؟'
-        },
-        Value:null,
-        Icon:'./Icons/playfulness.png',
-        Animation:'./LottieFilesGIFs/playfulness.gif'
+        Icon:require('./Icons/sweat.png'),
+        Animation:require('./LottieFilesGIFs/sweat.gif')
     },
     {
         Name:'Anxiety',
@@ -46,8 +36,18 @@ export let data=[
             Urdu:'آج آپ کا بچہ کتنا بے چین تھا؟'
         },
         Value:null,
-        Icon:'./Icons/anxiety.png',
-        Animation:'./LottieFilesGIFs/anxiety.gif'
+        Icon:require('./Icons/anxiety.png'),
+        Animation:require('./LottieFilesGIFs/anxiety.gif')
+    },
+    {
+        Name:'Playfulness',
+        Question:{
+            English:'How playful was your kid today?',
+            Urdu:'آج آپ کا بچہ کتنا چنچل تھا؟'
+        },
+        Value:null,
+        Icon:require('./Icons/playfulness.png'),
+        Animation:require('./LottieFilesGIFs/playfulness.gif')
     },
     {
         Name:'Sleep quality',
@@ -56,8 +56,8 @@ export let data=[
             Urdu:'کل رات نیند کا معیار کیسا رہا؟'
         },
         Value:null,
-        Icon:'./Icons/sleep.png',
-        Animation:'./LottieFilesGIFs/sleep.gif'
+        Icon:require('./Icons/sleep.png'),
+        Animation:require('./LottieFilesGIFs/sleep.gif')
     },
     {
         Name:'Care burden',
@@ -66,8 +66,8 @@ export let data=[
             Urdu:'آج آپ نے کتنا بوجھ محسوس کیا؟'
         },
         Value:null,
-        Icon:'./Icons/caring.png',
-        Animation:'./LottieFilesGIFs/caring.gif'
+        Icon:require('./Icons/caring.png'),
+        Animation:require('./LottieFilesGIFs/caring.gif')
     },
     {
         Name:'Exposure to SHS',
@@ -76,8 +76,8 @@ export let data=[
             Urdu:'آج آپ کے بچے کو سگریٹ کے دھوئیں کا کتنا سامنا کرنا پڑا؟'
         },
         Value:null,
-        Icon:'./Icons/shs.png',
-        Animation:'./LottieFilesGIFs/shs.gif'
+        Icon:require('./Icons/shs.png'),
+        Animation:require('./LottieFilesGIFs/shs.gif')
     },
     {
         Name:'Exposure to cooking fuel burning',
@@ -86,8 +86,8 @@ export let data=[
             Urdu:'آج آپ کے بچے کو کھانا پکانے کا ایندھن جلانے کا کتنا سامنا کرنا پڑا؟'
         },
         Value:null,
-        Icon:'./Icons/cooking.png',
-        Animation:'./LottieFilesGIFs/cooking.gif'
+        Icon:require('./Icons/cooking.png'),
+        Animation:require('./LottieFilesGIFs/cooking.gif')
     },
     {
         Name:'Exposure to traffic pollution',
@@ -96,8 +96,8 @@ export let data=[
             Urdu:'آج آپ کا بچہ سڑک ٹریفک کی وجہ سے آلودگی کا کتنا شکار ہوا؟'
         },
         Value:null,
-        Icon:'./Icons/traffic.png',
-        Animation:'./LottieFilesGIFs/traffic.gif'
+        Icon:require('./Icons/traffic.png'),
+        Animation:require('./LottieFilesGIFs/traffic.gif')
     }
 ]
 

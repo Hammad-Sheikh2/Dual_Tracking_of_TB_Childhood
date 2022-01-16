@@ -1,22 +1,23 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Button, Touchable } from 'react-native';
-import React , { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, Image, Button, Animated } from 'react-native';
+import React , { useState , useRef, useEffect } from 'react';
 import Symptom from './Components/Symptom';
 import { data } from './Data';
 
 export default function App() {
   const [Item, setItem] = useState(data[0]);
-  console.log(data[0])
-  alert(data[0])
+  const [swipeUp,setSwipeUp] = useState(new Animated.Value(0))
+
+  useEffect(() => {
+    Animated.timing(swipeUp,{
+      toValue:-300,
+      useNativeDriver:true
+    }).start();
+  },[swipeUp])
+
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-    }}>
+    <SafeAreaView style={{alignItems:'center'}}>
       <View style={
         {
-          marginTop:40,
           paddingHorizontal:20,
           paddingVertical:10,
           width:'100%',
@@ -53,10 +54,10 @@ export default function App() {
             width: 300,
             height: 300,
             borderRadius: 300,
-            backgroundColor:'blue'
           }}
+          resizeMode='contain'
           source={
-            require(""+Item.Animation)
+            Item.Animation
           }
         />
       </View>
@@ -77,7 +78,7 @@ export default function App() {
         height:400,
         borderTopLeftRadius:50,
         borderTopEndRadius:50,
-        
+        transform:[{translateX:swipeUp}]
       }}>
         <View
           style={{
@@ -87,12 +88,12 @@ export default function App() {
             paddingHorizontal:30
           }}
         >
-          <Touchable>
+          <View>
             <Image 
-              style = {{width:40,height:30,transform:[{rotate:'180deg'}]}}
-              source={require("./LottieFilesGIFs/dry-cough.gif")} 
+              style = {{width:20,height:20,transform:[{rotate:'180deg'}]}}
+              source={require("./Icons/dropImage.png")}
             />
-          </Touchable>
+          </View>
         </View>
         <View
           style={{
@@ -102,10 +103,10 @@ export default function App() {
             paddingHorizontal:30
           }}
         >
-          <Symptom symptomText={data[0].Name} icon={data[0].Icon} />
-          <Symptom symptomText={data[1].Name} icon={data[1].Icon} />
-          <Symptom symptomText={data[2].Name} icon={data[2].Icon} />
-          <Symptom symptomText={data[3].Name} icon={data[3].Icon} />
+          <Symptom symptomText={data[0].Name} icon={data[0].Icon} data={data[0]} setter={setItem} />
+          <Symptom symptomText={data[1].Name} icon={data[1].Icon} data={data[1]} setter={setItem} />
+          <Symptom symptomText={data[2].Name} icon={data[2].Icon} data={data[2]} setter={setItem} />
+          <Symptom symptomText={data[3].Name} icon={data[3].Icon} data={data[3]} setter={setItem} />
         </View>
         <View
           style={{
@@ -115,10 +116,10 @@ export default function App() {
             paddingHorizontal:30
           }}
         >
-          <Symptom symptomText={data[4].Name} icon={data[4].Icon} />
-          <Symptom symptomText={data[5].Name} icon={data[5].Icon} />
-          <Symptom symptomText={data[6].Name} icon={data[6].Icon} />
-          <Symptom symptomText={data[7].Name} icon={data[7].Icon} />
+          <Symptom symptomText={data[4].Name} icon={data[4].Icon} data={data[4]} setter={setItem} />
+          <Symptom symptomText={data[5].Name} icon={data[5].Icon} data={data[5]} setter={setItem} />
+          <Symptom symptomText={data[6].Name} icon={data[6].Icon} data={data[6]} setter={setItem} />
+          <Symptom symptomText={data[7].Name} icon={data[7].Icon} data={data[7]} setter={setItem} />
         </View>
         <View
           style={{
@@ -128,16 +129,10 @@ export default function App() {
             paddingHorizontal:100
           }}
         >
-          <Symptom symptomText={data[8].Name} icon={data[8].Icon} />
-          <Symptom symptomText={data[9].Name} icon={data[9].Icon} />
+          <Symptom symptomText={data[8].Name} icon={data[8].Icon} data={data[8]} setter={setItem} />
+          <Symptom symptomText={data[9].Name} icon={data[9].Icon} data={data[9]} setter={setItem} />
         </View>
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container:{
-    
-  }
-})
