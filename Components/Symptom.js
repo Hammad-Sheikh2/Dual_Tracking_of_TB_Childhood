@@ -8,7 +8,7 @@ export default function Symptom(props) {
         <View style={styles.IconView}>
           <Image 
             style={styles.IconImage}
-            source={require('.'+props.icon)}
+            source={require("."+props.icon)}
           />
         </View>
         <View style={styles.ValueView}></View>

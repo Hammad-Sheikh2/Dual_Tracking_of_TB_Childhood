@@ -6,6 +6,7 @@ import { data } from './Data';
 export default function App() {
   const [Item, setItem] = useState(data[0]);
   console.log(data[0])
+  alert(data[0])
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -55,7 +56,7 @@ export default function App() {
             backgroundColor:'blue'
           }}
           source={
-            require(''+Item.Animation)
+            require(""+Item.Animation)
           }
         />
       </View>
@@ -114,10 +115,10 @@ export default function App() {
             paddingHorizontal:30
           }}
         >
-          <Symptom symptomText='Anxiety' />
-          <Symptom symptomText='Sleep' />
-          <Symptom symptomText='SHS' />
-          <Symptom symptomText='Care' />
+          <Symptom symptomText={data[4].Name} icon={data[4].Icon} />
+          <Symptom symptomText={data[5].Name} icon={data[5].Icon} />
+          <Symptom symptomText={data[6].Name} icon={data[6].Icon} />
+          <Symptom symptomText={data[7].Name} icon={data[7].Icon} />
         </View>
         <View
           style={{
@@ -127,8 +128,8 @@ export default function App() {
             paddingHorizontal:100
           }}
         >
-          <Symptom symptomText="Playfulness" />
-          <Symptom symptomText='Pollution' />
+          <Symptom symptomText={data[8].Name} icon={data[8].Icon} />
+          <Symptom symptomText={data[9].Name} icon={data[9].Icon} />
         </View>
       </View>
     </SafeAreaView>
