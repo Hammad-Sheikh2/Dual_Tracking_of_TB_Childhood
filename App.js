@@ -1,21 +1,60 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Button, Animated } from 'react-native';
-import React , { useState , useRef, useEffect } from 'react';
-import Symptom from './Components/Symptom';
+import { SafeAreaView, StyleSheet, Text, View, Image, Button, Animated, Easing, Dimensions } from 'react-native';
+import React , { useState } from 'react';
+import Symptom from './Components/Symptom.js';
 import { data } from './Data';
+const [width,height] = Dimensions.get('window')
 
 export default function App() {
   const [Item, setItem] = useState(data[0]);
-  const [swipeUp,setSwipeUp] = useState(new Animated.Value(0))
-
-  useEffect(() => {
-    Animated.timing(swipeUp,{
-      toValue:-300,
-      useNativeDriver:true
+  const [swipe,setSwipe] = useState(new Animated.Value(0))
+  const [rotationAntiClockwise,setRotationAntiClockwise]=useState(new Animated.Value(0.5))
+  let rotateData = rotationAntiClockwise.interpolate({
+    inputRange:[0,1],
+    outputRange:["0deg","360deg"]
+  })
+  let isSwipeDown = true;
+  const animateViewSwipe=()=>{
+    if (isSwipeDown) {
+      animateViewSwipeUp()
+      isSwipeDown = false;
+    }
+    else{
+      animateViewSwipeDown()
+      isSwipeDown = true;
+    }
+  }
+  const animationRotateAntiClockwise = ()=>{
+    Animated.timing(rotationAntiClockwise,{
+      toValue:0,
+      duration:500,
+      easing:Easing.linear,
+      useNativeDriver:false
     }).start();
-  },[swipeUp])
-
+  }
+  const animationRotateClockwise = ()=>{
+    Animated.timing(rotationAntiClockwise,{
+      toValue:0.5,
+      duration:500,
+      easing:Easing.linear,
+      useNativeDriver:false
+    }).start();
+  }
+  const animateViewSwipeDown = ()=>{
+    Animated.timing(swipe,{
+      toValue:0,
+      duration:1000,
+      useNativeDriver:true
+    }).start(()=>{animationRotateClockwise()});
+  }
+  const animateViewSwipeUp = ()=>{
+    Animated.timing(swipe,{
+      toValue:-300,
+      duration:1000,
+      useNativeDriver:true
+    }).start(()=>{animationRotateAntiClockwise()});
+  }
   return (
-    <SafeAreaView style={{alignItems:'center'}}>
+    <SafeAreaView style={styles.container}>
       <View style={
         {
           paddingHorizontal:20,
@@ -61,45 +100,47 @@ export default function App() {
           }
         />
       </View>
-      <View style={
+      <Animated.View style={
         {
           margin:25,
           paddingHorizontal:50,
           paddingVertical:10,
           borderRadius:50,
-          backgroundColor:'green'
+          backgroundColor:'green',
+          transform:[{translateY:swipe}]
         }}>
           <Text style={{fontSize:24}}>Horizontal Equalizer</Text>
-      </View>
-      <View style={{
+      </Animated.View>
+      <Animated.View style={{
         backgroundColor:'#000018',
         marginTop:50,
         width:'100%',
         height:400,
         borderTopLeftRadius:50,
         borderTopEndRadius:50,
-        transform:[{translateX:swipeUp}]
+        transform:[{translateY:swipe}]
       }}>
         <View
           style={{
             marginTop:15,
             flexDirection: 'row',
-            justifyContent:'space-around',
+            justifyContent:'center',
             paddingHorizontal:30
           }}
         >
-          <View>
-            <Image 
-              style = {{width:20,height:20,transform:[{rotate:'180deg'}]}}
+          <View onStartShouldSetResponder={()=>{animateViewSwipe()}}>
+            <Animated.Image 
+              style = {{width:20,height:20,transform:[{rotate:rotateData}]}}
               source={require("./Icons/dropImage.png")}
             />
           </View>
         </View>
+        
         <View
           style={{
             marginTop:15,
             flexDirection: 'row',
-            justifyContent:'space-around',
+            justifyContent:'center',
             paddingHorizontal:30
           }}
         >
@@ -112,7 +153,7 @@ export default function App() {
           style={{
             marginTop:20,
             flexDirection: 'row',
-            justifyContent:'space-around',
+            justifyContent:'center',
             paddingHorizontal:30
           }}
         >
@@ -125,14 +166,25 @@ export default function App() {
           style={{
             marginTop:20,
             flexDirection: 'row',
-            justifyContent:'space-around',
+            justifyContent:'center',
             paddingHorizontal:100
           }}
         >
           <Symptom symptomText={data[8].Name} icon={data[8].Icon} data={data[8]} setter={setItem} />
           <Symptom symptomText={data[9].Name} icon={data[9].Icon} data={data[9]} setter={setItem} />
         </View>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  TopBar:{
+
+  }
+});
