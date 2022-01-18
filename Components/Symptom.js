@@ -8,11 +8,13 @@ export default function Symptom(props) {
         <View style={styles.IconView}>
           <Image 
             style={styles.IconImage}
-            source={props.Icon}
+            source={props.data.Icon}
           />
         </View>
-        <View style={styles.ValueView}></View>
-        <Text style={styles.Text}>{props.symptomText}</Text>
+        <View style={styles.ValueView}>
+          <Text style={{fontWeight:'bold'}}>{props.data.Value}</Text>
+        </View>
+        <Text style={styles.Text}>{props.data.Name}</Text>
       </View>
     );
   }
@@ -22,7 +24,8 @@ export default function Symptom(props) {
       flexDirection:'column',
       alignItems:'center',
       width:50,
-      height:80
+      height:80,
+      marginHorizontal:10
     },
     IconView:{
       width:50,
@@ -48,7 +51,9 @@ export default function Symptom(props) {
       backgroundColor:'yellow',
       position:'relative',
       top:-50,
-      left:15
+      left:15,
+      justifyContent:'center',
+      alignItems:'center'
     },
     Text:{
       color:'white',

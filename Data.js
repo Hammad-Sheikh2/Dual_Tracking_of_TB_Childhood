@@ -1,11 +1,11 @@
-export default data=[
+export let data=[
     {
         Name:'Cough',
         Question:{
             English:'How severe was the cough today?',
             Urdu:'آج کھانسی کتنی شدید تھی؟'
         },
-        Value:null,
+        Value:6,
         Icon: require('./Icons/cough.png'),
         Animation:require('./LottieFilesGIFs/dry-cough.gif')
     },
@@ -70,7 +70,7 @@ export default data=[
         Animation:require('./LottieFilesGIFs/caring.gif')
     },
     {
-        Name:'Exposure to SHS',
+        Name:'SHS',
         Question:{
            English:'How much your child was exposed to cigarette smoke today?',
             Urdu:'آج آپ کے بچے کو سگریٹ کے دھوئیں کا کتنا سامنا کرنا پڑا؟'
@@ -80,7 +80,7 @@ export default data=[
         Animation:require('./LottieFilesGIFs/shs.gif')
     },
     {
-        Name:'Exposure to cooking fuel burning',
+        Name:'Cooking fuel burning',
         Question:{
            English:'How much your child was exposed to cooking fuel burning today?',
             Urdu:'آج آپ کے بچے کو کھانا پکانے کا ایندھن جلانے کا کتنا سامنا کرنا پڑا؟'
@@ -90,7 +90,7 @@ export default data=[
         Animation:require('./LottieFilesGIFs/cooking.gif')
     },
     {
-        Name:'Exposure to traffic pollution',
+        Name:'Traffic pollution',
         Question:{
            English:'How much your child was exposed to pollution caused by road traffic today?',
             Urdu:'آج آپ کا بچہ سڑک ٹریفک کی وجہ سے آلودگی کا کتنا شکار ہوا؟'
