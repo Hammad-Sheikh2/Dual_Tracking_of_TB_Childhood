@@ -1,5 +1,6 @@
 import { SafeAreaView, StyleSheet, Text, View, Image, Button, Animated, Easing, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import React , { useState } from 'react';
+import Slider from '@react-native-community/slider'
 import Symptom from './Components/Symptom.js';
 import { data } from './Data.js';
 const {width,height} = Dimensions.get('window')
@@ -9,6 +10,7 @@ export default function App() {
   const [swipe,setSwipe] = useState(new Animated.Value(0))
   const [rotationAntiClockwise,setRotationAntiClockwise]=useState(new Animated.Value(0.5))
   const [fade,setFade]= useState(new Animated.Value(1))
+  const [sliderValue, setSliderValue] = useState(0);
   let rotateData = rotationAntiClockwise.interpolate({
     inputRange:[0,1],
     outputRange:["0deg","360deg"]
@@ -101,9 +103,20 @@ export default function App() {
           }
         />
       </Animated.View>
-      <Animated.View style={{transform:[{translateY:swipe}]}}>
+      <Animated.View style={{width:'100%',transform:[{translateY:swipe}]}}>
         <View style={styles.EqualizerView}>
-          <Text style={{fontSize:24}}>Horizontal Equalizer</Text>
+          <Slider
+            style={{width:'100%'}}
+            maximumValue={10}
+            minimumValue={0}
+            minimumTrackTintColor="#307ecc"
+            maximumTrackTintColor="#000000"
+            step={1}
+            value={sliderValue}
+            onValueChange={
+              (sliderValue) => setSliderValue(sliderValue)
+            }
+          />
         </View>
       </Animated.View>
       <Animated.View style={{width:'100%',height:600,transform:[{translateY:swipe}]}}>
