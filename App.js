@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Button, Animated, Easing, Dimensions } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, Button, Animated, Easing, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import React , { useState } from 'react';
 import Symptom from './Components/Symptom.js';
 import { data } from './Data.js';
@@ -84,17 +84,10 @@ export default function App() {
   }
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar hidden={false} />
       <View style={styles.TopBar}>
-        <Button
-            title='Play Question'
-            color="#32AAB9"
-            accessibilityLabel="Paly audio of current question in selected translation."
-          />
-        <Button
-          title='Translate'
-          color="#32AAB9"
-          accessibilityLabel="Translate current question in available languages."
-        />
+        <TouchableOpacity><Image style={{width:20,height:20}} source={require('./Icons/translate.png')}/></TouchableOpacity>
+        <TouchableOpacity><Image style={{width:20,height:20}} source={require('./Icons/sound.png')}/></TouchableOpacity>
       </View>
       <View style={styles.QuestionView}>
         <Text style={{fontSize:18}}>{Item.Question.English}</Text>
@@ -132,7 +125,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container:{
-    marginTop:35,
     flex:1,
     alignItems:'center'
   },
@@ -153,7 +145,7 @@ const styles = StyleSheet.create({
     borderRadius:50
   },
   SymptomAnimation:{
-    marginTop:60,
+    marginTop:50,
     width: 300,
     height: 300,
     borderRadius: 300
@@ -167,7 +159,7 @@ const styles = StyleSheet.create({
   },
   BottomBar:{
     backgroundColor:'#000018',
-    marginTop:50,
+    marginTop:30,
     width:'100%',
     flex:1,
     borderTopLeftRadius:50,
