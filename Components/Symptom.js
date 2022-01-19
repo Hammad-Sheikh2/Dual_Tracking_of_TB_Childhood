@@ -1,7 +1,8 @@
 import { Text, View, Image, StyleSheet} from 'react-native';
 import React from 'react';
-
+let top=0;
 export default function Symptom(props) {
+    top=props.data.Value!==null?-20:0
     return (
       <View onStartShouldSetResponder={()=>props.setter(props.data)}
         style={styles.container}>
@@ -11,10 +12,12 @@ export default function Symptom(props) {
             source={props.data.Icon}
           />
         </View>
-        <View style={styles.ValueView}>
-          <Text style={{fontWeight:'bold'}}>{props.data.Value}</Text>
-        </View>
-        <Text style={styles.Text}>{props.data.Name}</Text>
+        {props.data.Value!==null?
+          <View style={styles.ValueView}>
+            <Text style={{fontWeight:'bold'}}>{props.data.Value}</Text>
+          </View>:<></>
+        }
+        <Text style={{color:'white',top:top}}>{props.data.Name}</Text>
       </View>
     );
   }
@@ -25,18 +28,17 @@ export default function Symptom(props) {
       alignItems:'center',
       width:50,
       height:80,
-      marginHorizontal:10
+      marginHorizontal:10,
     },
     IconView:{
       width:50,
       height:50,
       borderRadius:50,
-      borderWidth:1,
       backgroundColor:'white',
       position:'relative',
       justifyContent:'center',
       alignItems:'center',
-      top:10
+      marginTop:10
     },
     IconImage:{
       width:40,
@@ -54,10 +56,5 @@ export default function Symptom(props) {
       left:15,
       justifyContent:'center',
       alignItems:'center'
-    },
-    Text:{
-      color:'white',
-      position:'relative',
-      top:-10
     }
   })
