@@ -5,7 +5,7 @@ export let data=[
             English:'How severe was the cough today?',
             Urdu:'آج کھانسی کتنی شدید تھی؟'
         },
-        Value:6,
+        Value:null,
         Icon: require('./Icons/cough.png'),
         Animation:require('./LottieFilesGIFs/dry-cough.gif')
     },

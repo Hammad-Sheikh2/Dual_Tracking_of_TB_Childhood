@@ -4,7 +4,7 @@ let top=0;
 export default function Symptom(props) {
     top=props.data.Value!==null?-20:0
     return (
-      <View onStartShouldSetResponder={()=>props.setter(props.data)}
+      <View onStartShouldSetResponder={()=>{props.setCurrentDataItem(props.currentDataItem);props.setter(props.data)}}
         style={styles.container}>
         <View style={styles.IconView}>
           <Image 
@@ -17,7 +17,7 @@ export default function Symptom(props) {
             <Text style={{fontWeight:'bold'}}>{props.data.Value}</Text>
           </View>:<></>
         }
-        <Text style={{color:'white',top:top}}>{props.data.Name}</Text>
+        <Text style={{textAlign:'center',color:'white',top:top}}>{props.data.Name}</Text>
       </View>
     );
   }
