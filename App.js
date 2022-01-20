@@ -10,22 +10,33 @@ export default function App() {
   const [swipe,setSwipe] = useState(new Animated.Value(0))
   const [rotationAntiClockwise,setRotationAntiClockwise]=useState(new Animated.Value(0.5))
   const [fade,setFade]= useState(new Animated.Value(1))
+  const [currentDataItem,setCurrentDataItem]=useState(0);
   const [sliderValue, setSliderValue] = useState(0);
   let rotateData = rotationAntiClockwise.interpolate({
     inputRange:[0,1],
     outputRange:["0deg","360deg"]
   })
+  const SetValue=()=>{
+    data[currentDataItem].Value=sliderValue;
+    let temp = data[currentDataItem]
+    data.splice(currentDataItem,1)
+    data.push(temp)
+    setSliderValue(data[0].Value===null?0:data[0].Value)
+    setItem(data[0])
+    setCurrentDataItem(0)
+  }
   let isSwipeDown = true;
   let BottomBarContent = [];
   //* Adding Bottom Bar Content
   for (let index = 0; index < parseInt(data.length/4)  + (data.length%4===0?0:1); index++) {
     let rowContent = []
     for (let i = 0; i < (index===parseInt(data.length/4) + (data.length%4===0?0:1)-1?data.length%4:4) ; i++) {
-      rowContent.push(<Symptom data={data[index*4+i]} setter={setItem} />)
+      rowContent.push(<Symptom currentDataItem={index*4+i} setCurrentDataItem={setCurrentDataItem} data={data[index*4+i]} setter={setItem} />)
     }
     let row = <View style={styles.BottomBarRow}>{rowContent}</View>
     BottomBarContent.push(row)
   }
+  //* Animations
   const animateViewSwipe=()=>{
     if (isSwipeDown) {
       animateViewSwipeUp()
@@ -105,6 +116,10 @@ export default function App() {
       </Animated.View>
       <Animated.View style={{width:'100%',transform:[{translateY:swipe}]}}>
         <View style={styles.EqualizerView}>
+          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <Text style={{color:'white'}}>Slider Value</Text>
+            <Text style={{color:'white'}}>{sliderValue}</Text>
+          </View>
           <Slider
             style={{width:'100%'}}
             maximumValue={10}
@@ -116,6 +131,7 @@ export default function App() {
             onValueChange={
               (sliderValue) => setSliderValue(sliderValue)
             }
+            onSlidingComplete={()=>{SetValue()}}
           />
         </View>
       </Animated.View>
