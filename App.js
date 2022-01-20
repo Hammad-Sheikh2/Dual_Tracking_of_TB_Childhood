@@ -31,7 +31,7 @@ export default function App() {
   for (let index = 0; index < parseInt(data.length/4)  + (data.length%4===0?0:1); index++) {
     let rowContent = []
     for (let i = 0; i < (index===parseInt(data.length/4) + (data.length%4===0?0:1)-1?data.length%4:4) ; i++) {
-      rowContent.push(<Symptom currentDataItem={index*4+i} setCurrentDataItem={setCurrentDataItem} data={data[index*4+i]} setter={setItem} />)
+      rowContent.push(<Symptom setSliderValue={setSliderValue}  currentDataItem={index*4+i} setCurrentDataItem={setCurrentDataItem} data={data[index*4+i]} setter={setItem} />)
     }
     let row = <View style={styles.BottomBarRow}>{rowContent}</View>
     BottomBarContent.push(row)
