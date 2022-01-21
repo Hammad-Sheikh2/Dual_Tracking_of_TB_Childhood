@@ -6,7 +6,7 @@ export default TopBar=(props)=>{
     const [modalVisible, setModalVisible] = useState(false);
     let languages=[]
     for (let index = 0; index < Languages.length; index++) {
-        languages.push(<TouchableOpacity style={styles.LanguagesButton} onPress={()=>{props.ChangeLanguage(Languages[index]);setModalVisible(!modalVisible);}}><Text>{Languages[index]}</Text></TouchableOpacity>)
+        languages.push(<TouchableOpacity style={styles.LanguagesButton} onPress={()=>{props.ChangeLanguage(Languages[index]);setModalVisible(!modalVisible);}}><Text style={{color:'white'}}>{Languages[index]}</Text></TouchableOpacity>)
     }
     return(
         <>
@@ -20,7 +20,8 @@ export default TopBar=(props)=>{
         >
             <View style={styles.centeredView}>
                 <View style={styles.closeButton}>
-                    <TouchableOpacity style={{alignSelf:'flex-end',paddingHorizontal:80,paddingVertical:5}} onPress={()=>setModalVisible(!modalVisible)}>
+                    <TouchableOpacity style={{flexDirection:'row',alignSelf:'flex-end',paddingHorizontal:50,paddingVertical:5}} onPress={()=>setModalVisible(!modalVisible)}>
+                        <Text style={{color:'white'}}>Close Translator </Text>
                         <Image style={{width:20,height:20}} source={require('../Icons/close.png')} />
                     </TouchableOpacity>
                 </View>
@@ -53,7 +54,8 @@ const styles = StyleSheet.create({
         marginTop: 22
       },
       modalView: {
-        margin: 20,
+        marginHorizontal: 20,
+        marginVertical:5,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
@@ -72,12 +74,12 @@ const styles = StyleSheet.create({
         marginVertical:10,
         paddingVertical:10,
         paddingHorizontal:50,
-        backgroundColor:'skyblue',
+        backgroundColor:'#32AAB9',
         borderRadius:50
       },
       closeButton:{
         flexDirection:'row',
-        backgroundColor:'gray',
+        backgroundColor:'black',
         borderRadius: 20,
         shadowColor: "#000",
         shadowOffset: {
