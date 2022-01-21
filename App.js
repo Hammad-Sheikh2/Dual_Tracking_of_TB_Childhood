@@ -3,10 +3,12 @@ import React , { useState } from 'react';
 import Slider from '@react-native-community/slider'
 import Symptom from './Components/Symptom.js';
 import { data } from './Data.js';
+import TopBar from './Components/TopBar.js';
 const {width,height} = Dimensions.get('window')
 
 export default function App() {
   const [Item, setItem] = useState(data[0]);
+  const [language, setLanguage] = useState('English');
   const [swipe,setSwipe] = useState(new Animated.Value(0))
   const [rotationAntiClockwise,setRotationAntiClockwise]=useState(new Animated.Value(0.5))
   const [fade,setFade]= useState(new Animated.Value(1))
@@ -24,6 +26,14 @@ export default function App() {
     setSliderValue(data[0].Value===null?0:data[0].Value)
     setItem(data[0])
     setCurrentDataItem(0)
+  }
+  const GetQuestion=(Language)=>{
+    switch(Language){
+      case 'English':
+        return Item.Question.English
+      case 'Urdu':
+        return Item.Question.Urdu
+    }
   }
   let isSwipeDown = true;
   let BottomBarContent = [];
@@ -98,12 +108,9 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={false} />
-      <View style={styles.TopBar}>
-        <TouchableOpacity><Image style={{width:20,height:20}} source={require('./Icons/translate.png')}/></TouchableOpacity>
-        <TouchableOpacity><Image style={{width:20,height:20}} source={require('./Icons/sound.png')}/></TouchableOpacity>
-      </View>
+      <TopBar ChangeLanguage={setLanguage} />
       <View style={styles.QuestionView}>
-        <Text style={{fontSize:18}}>{Item.Question.English}</Text>
+        <Text style={{fontSize:18}}>{GetQuestion(language)}</Text>
       </View>
       <Animated.View style={{opacity:fade}}>
         <Image
@@ -135,7 +142,7 @@ export default function App() {
           />
         </View>
       </Animated.View>
-      <Animated.View style={{width:'100%',height:600,transform:[{translateY:swipe}]}}>
+      <Animated.View style={{width:'100%',height:800,transform:[{translateY:swipe}]}}>
         <View style={styles.BottomBar}>
           <View style={styles.BottomBarRow}>
             <View onStartShouldSetResponder={()=>{animateViewSwipe()}}>
@@ -156,14 +163,6 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     alignItems:'center'
-  },
-  TopBar:{
-    paddingHorizontal:20,
-    paddingVertical:10,
-    width:'100%',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    backgroundColor:'#000018'
   },
   QuestionView:{
     borderStyle:'solid',
