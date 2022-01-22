@@ -4,7 +4,7 @@ let top=0;
 export default function Symptom(props) {
     top=props.data.Value!==null?-20:0
     return (
-      <View onStartShouldSetResponder={()=>{props.setSliderValue(props.data.Value===null?0:props.data.Value);props.setCurrentDataItem(props.currentDataItem);props.setter(props.data)}}
+      <View onStartShouldSetResponder={()=>{props.setTranslation((props.data.Value===null||props.data.Value===0)?0:(props.data.Value*(245/11)+5));props.setSliderValue(props.data.Value===null?0:props.data.Value);props.setCurrentDataItem(props.currentDataItem);props.setter(props.data)}}
         style={styles.container}>
         <View style={styles.IconView}>
           <Image 

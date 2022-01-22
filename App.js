@@ -1,6 +1,6 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Button, Animated, Easing, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, Animated, Easing, Dimensions, StatusBar } from 'react-native';
 import React , { useState } from 'react';
-import Slider from '@react-native-community/slider'
+import Slider from './Components/Slider.js';
 import Symptom from './Components/Symptom.js';
 import { data } from './Data.js';
 import TopBar from './Components/TopBar.js';
@@ -14,6 +14,7 @@ export default function App() {
   const [fade,setFade]= useState(new Animated.Value(1))
   const [currentDataItem,setCurrentDataItem]=useState(0);
   const [sliderValue, setSliderValue] = useState(0);
+  const [translation,setTranslation] = useState(sliderValue*(245/11)+5)
   let rotateData = rotationAntiClockwise.interpolate({
     inputRange:[0,1],
     outputRange:["0deg","360deg"]
@@ -26,6 +27,7 @@ export default function App() {
     setSliderValue(data[0].Value===null?0:data[0].Value)
     setItem(data[0])
     setCurrentDataItem(0)
+    setTranslation((data[0].Value===null||data[0].Value===0)?0:(data[0].Value*(245/11)+5))
   }
   const GetQuestion=(Language)=>{
     switch(Language){
@@ -41,7 +43,7 @@ export default function App() {
   for (let index = 0; index < parseInt(data.length/4)  + (data.length%4===0?0:1); index++) {
     let rowContent = []
     for (let i = 0; i < (index===parseInt(data.length/4) + (data.length%4===0?0:1)-1?data.length%4:4) ; i++) {
-      rowContent.push(<Symptom setSliderValue={setSliderValue}  currentDataItem={index*4+i} setCurrentDataItem={setCurrentDataItem} data={data[index*4+i]} setter={setItem} />)
+      rowContent.push(<Symptom setTranslation={setTranslation} setSliderValue={setSliderValue}  currentDataItem={index*4+i} setCurrentDataItem={setCurrentDataItem} data={data[index*4+i]} setter={setItem} />)
     }
     let row = <View style={styles.BottomBarRow}>{rowContent}</View>
     BottomBarContent.push(row)
@@ -123,23 +125,12 @@ export default function App() {
       </Animated.View>
       <Animated.View style={{width:'100%',transform:[{translateY:swipe}]}}>
         <View style={styles.EqualizerView}>
-          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-            <Text style={{color:'white'}}>Slider Value</Text>
-            <Text style={{color:'white'}}>{sliderValue}</Text>
-          </View>
-          <Slider
-            style={{width:'100%'}}
-            maximumValue={10}
-            minimumValue={0}
-            minimumTrackTintColor="#307ecc"
-            maximumTrackTintColor="#000000"
-            step={1}
-            value={sliderValue}
-            onValueChange={
-              (sliderValue) => setSliderValue(sliderValue)
-            }
-            onSlidingComplete={()=>{SetValue()}}
-          />
+          <Slider 
+            value={sliderValue} 
+            setValue={setSliderValue}
+            Translation={translation}
+            setTranslation={setTranslation}
+            onSlidingEnd={SetValue}/>
         </View>
       </Animated.View>
       <Animated.View style={{width:'100%',height:800,transform:[{translateY:swipe}]}}>
@@ -180,10 +171,9 @@ const styles = StyleSheet.create({
   },
   EqualizerView:{
     margin:25,
-    paddingHorizontal:50,
-    paddingVertical:10,
     borderRadius:50,
-    backgroundColor:'green'
+    justifyContent:'center',
+    alignItems:'center'
   },
   BottomBar:{
     backgroundColor:'#000018',
