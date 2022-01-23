@@ -17,14 +17,16 @@ export default function Slider(props) {
         if(props.Translation<=0){
             return;
         }
-        props.setTranslation(props.Translation-4)
+        props.setTranslation(props.Translation-3)
+        e.touchX = e.nativeEvent.pageX
     }
     if (e.touchX-e.nativeEvent.pageX<-20){
         //? Swipe Right
         if(props.Translation>=240){
             return;
         }
-        props.setTranslation(props.Translation+4)
+        props.setTranslation(props.Translation+3)
+        e.touchX = e.nativeEvent.pageX
     }
     props.setValue(parseInt(props.Translation/(245/11)))
   }

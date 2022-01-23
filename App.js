@@ -110,7 +110,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={false} />
-      <TopBar ChangeLanguage={setLanguage} />
+      <TopBar ChangeLanguage={setLanguage} Language={language} Audio={Item.Audio} />
       <View style={styles.QuestionView}>
         <Text style={{fontSize:18}}>{GetQuestion(language)}</Text>
       </View>

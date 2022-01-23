@@ -1,9 +1,25 @@
 import {  StyleSheet, Text, View, Image, Modal, TouchableOpacity } from 'react-native';
 import React , { useState } from 'react';
 import { Languages } from '../Data';
+import { Audio } from 'expo-av';
 
 export default TopBar=(props)=>{
     const [modalVisible, setModalVisible] = useState(false);
+    const getAudioAccordingToSelectedLanguage=()=>{
+        if (props.Language==='English') {
+            return props.Audio.English
+        }
+        if (props.Language==='Urdu') {
+            return props.Audio.Urdu
+        }
+    }
+    const PlaySound= async()=>{
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync(getAudioAccordingToSelectedLanguage());
+        setSound(sound);
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
     let languages=[]
     for (let index = 0; index < Languages.length; index++) {
         languages.push(<TouchableOpacity style={styles.LanguagesButton} onPress={()=>{props.ChangeLanguage(Languages[index]);setModalVisible(!modalVisible);}}><Text style={{color:'white'}}>{Languages[index]}</Text></TouchableOpacity>)
@@ -32,7 +48,7 @@ export default TopBar=(props)=>{
         </Modal>
         <View style={styles.TopBar}>
             <TouchableOpacity onPress={()=>{setModalVisible(!modalVisible)}}><Image style={{width:20,height:20}} source={require('../Icons/translate.png')}/></TouchableOpacity>
-            <TouchableOpacity><Image style={{width:20,height:20}} source={require('../Icons/sound.png')}/></TouchableOpacity>
+            <TouchableOpacity onPress={()=>PlaySound()}><Image style={{width:20,height:20}} source={require('../Icons/sound.png')}/></TouchableOpacity>
         </View>
         </>
     )
