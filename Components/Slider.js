@@ -12,23 +12,23 @@ export default function Slider(props) {
     sliderEachPointValue.push(<Text style={{color:'white',fontWeight:'bold'}}>{index}</Text>)
   }
   const translatePickerOnScale=(e)=>{
-    if (e.touchX-e.nativeEvent.pageX>20){
+    if (e.touchX-e.nativeEvent.pageX>5){
         //? Swipe Left
         if(props.Translation<=0){
             return;
         }
-        props.setTranslation(props.Translation-3)
+        props.setTranslation(props.Translation-12)
         e.touchX = e.nativeEvent.pageX
     }
-    if (e.touchX-e.nativeEvent.pageX<-20){
+    if (e.touchX-e.nativeEvent.pageX<-5){
         //? Swipe Right
         if(props.Translation>=240){
             return;
         }
-        props.setTranslation(props.Translation+3)
+        props.setTranslation(props.Translation+12)
         e.touchX = e.nativeEvent.pageX
     }
-    props.setValue(parseInt(props.Translation/(245/11)))
+    props.setValue(parseInt(props.Translation/(240/11)))
   }
   
   return (

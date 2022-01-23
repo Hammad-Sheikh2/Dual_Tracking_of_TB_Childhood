@@ -5,6 +5,7 @@ import { Audio } from 'expo-av';
 
 export default TopBar=(props)=>{
     const [modalVisible, setModalVisible] = useState(false);
+    const [disabler,setDisabler]= useState(false);
     const getAudioAccordingToSelectedLanguage=()=>{
         if (props.Language==='English') {
             return props.Audio.English
@@ -14,11 +15,9 @@ export default TopBar=(props)=>{
         }
     }
     const PlaySound= async()=>{
-        console.log('Loading Sound');
+        setDisabler(true)
         const { sound } = await Audio.Sound.createAsync(getAudioAccordingToSelectedLanguage());
-        setSound(sound);
-        console.log('Playing Sound');
-        await sound.playAsync();
+        await sound.playAsync().then(()=>{setDisabler(false)});
     }
     let languages=[]
     for (let index = 0; index < Languages.length; index++) {
@@ -48,7 +47,7 @@ export default TopBar=(props)=>{
         </Modal>
         <View style={styles.TopBar}>
             <TouchableOpacity onPress={()=>{setModalVisible(!modalVisible)}}><Image style={{width:20,height:20}} source={require('../Icons/translate.png')}/></TouchableOpacity>
-            <TouchableOpacity onPress={()=>PlaySound()}><Image style={{width:20,height:20}} source={require('../Icons/sound.png')}/></TouchableOpacity>
+            <TouchableOpacity disabled={disabler} onPress={()=>PlaySound()}><Image style={{width:20,height:20}} source={require('../Icons/sound.png')}/></TouchableOpacity>
         </View>
         </>
     )
