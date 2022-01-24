@@ -9,26 +9,13 @@ const COLORS = [
 export default function Slider(props) {
   let sliderEachPointValue=[]
   for (let index = 0; index < 11; index++) {
-    sliderEachPointValue.push(<Text style={{color:'white',fontWeight:'bold'}}>{index}</Text>)
+    sliderEachPointValue.push(<Text key={index.toString()} style={{color:'white',fontWeight:'bold'}}>{index}</Text>)
   }
   const translatePickerOnScale=(e)=>{
-    if (e.touchX-e.nativeEvent.pageX>5){
-        //? Swipe Left
-        if(props.Translation<=0){
-            return;
-        }
-        props.setTranslation(props.Translation-12)
-        e.touchX = e.nativeEvent.pageX
-    }
-    if (e.touchX-e.nativeEvent.pageX<-5){
-        //? Swipe Right
-        if(props.Translation>=240){
-            return;
-        }
-        props.setTranslation(props.Translation+12)
-        e.touchX = e.nativeEvent.pageX
-    }
-    props.setValue(parseInt(props.Translation/(240/11)))
+    if(e.nativeEvent.pageX<80||e.nativeEvent.pageX>330)
+      return;
+    props.setTranslation(e.nativeEvent.pageX-88);
+    props.setValue(parseInt((e.nativeEvent.pageX-80)/(330-80)*11))
   }
   
   return (
@@ -57,12 +44,11 @@ export default function Slider(props) {
             alignItems:'center',
             transform:[{translateX:props.Translation}]
           }}
-          onTouchStart = { e => {e.touchX = e.nativeEvent.pageX} }
           onTouchMove={ e => translatePickerOnScale(e) }
           onTouchEnd={e=>{props.onSlidingEnd()}}
           >
           <View style={styles.pickerInsider}>
-            <Text style={{fontWeight:'bold',color:'white'}}>{props.value}</Text>
+            <Text key={'value'} style={{fontWeight:'bold',color:'white'}}>{props.value}</Text>
           </View>
         </Animated.View>
       </View>

@@ -1,11 +1,11 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Animated, Easing, Dimensions, StatusBar } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, Animated, Easing, Dimensions, StatusBar, Alert } from 'react-native';
 import React , { useState } from 'react';
 import Slider from './Components/Slider.js';
 import Symptom from './Components/Symptom.js';
 import { data } from './Data.js';
 import TopBar from './Components/TopBar.js';
 const {width,height} = Dimensions.get('window')
-
+let isCompletionMessageShowed=false;
 export default function App() {
   const [Item, setItem] = useState(data[0]);
   const [language, setLanguage] = useState('English');
@@ -20,14 +20,41 @@ export default function App() {
     outputRange:["0deg","360deg"]
   })
   const SetValue=()=>{
+    console.log('aya'+' '+isCompletionMessageShowed)
     data[currentDataItem].Value=sliderValue;
-    let temp = data[currentDataItem]
-    data.splice(currentDataItem,1)
-    data.push(temp)
-    setSliderValue(data[0].Value===null?0:data[0].Value)
-    setItem(data[0])
-    setCurrentDataItem(0)
-    setTranslation((data[0].Value===null||data[0].Value===0)?0:(data[0].Value*(245/11)+5))
+    if(!isCompletionMessageShowed){
+      let isUnAnsweredQuestionRemain = false;
+      for (let index = 0; index < data.length; index++) {
+        if(data[index].Value===null){
+          isUnAnsweredQuestionRemain = true;
+          index=data.length;
+        }
+      }
+      if(!isUnAnsweredQuestionRemain){
+        isCompletionMessageShowed=true;
+        Alert.alert("All Done!!",
+        "You have answered all today's question.",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("Ok Pressed")}
+        ]
+        );
+        //console.log('aya'+' '+isCompletionMessageShowed)
+        setCurrentDataItem(currentDataItem)
+        return;
+      }
+    }
+    if(currentDataItem>=data.length-1){
+      return;
+    }
+    setItem(data[currentDataItem+1])
+    setSliderValue(data[currentDataItem+1].Value===null?0:data[currentDataItem+1].Value)
+    setTranslation((data[currentDataItem+1].Value===null||data[currentDataItem+1].Value===0)?0:(data[currentDataItem+1].Value*(245/11)+5))
+    setCurrentDataItem(currentDataItem+1)
   }
   const GetQuestion=(Language)=>{
     switch(Language){
@@ -114,7 +141,7 @@ export default function App() {
       <View style={styles.QuestionView}>
         <Text style={{fontSize:18}}>{GetQuestion(language)}</Text>
       </View>
-      <Animated.View style={{opacity:fade}}>
+      <Animated.View style={{opacity:fade,borderColor:'black',borderWidth:1,marginTop:20}}>
         <Image
           style={styles.SymptomAnimation}
           resizeMode='contain'
@@ -164,10 +191,8 @@ const styles = StyleSheet.create({
     borderRadius:50
   },
   SymptomAnimation:{
-    marginTop:50,
     width: 300,
-    height: 300,
-    borderRadius: 300
+    height: 300
   },
   EqualizerView:{
     margin:25,
