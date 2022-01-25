@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Animated } from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, Easing } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 const COLORS = [
@@ -7,6 +7,8 @@ const COLORS = [
   '#f00'
 ]
 export default function Slider(props) {
+  const [lift,setLift]= useState(0);
+  const [size,setSize]= useState(CIRCLE_PICKER_SIZE/2);
   let sliderEachPointValue=[]
   for (let index = 0; index < 11; index++) {
     sliderEachPointValue.push(<Text key={index.toString()} style={{color:'white',fontWeight:'bold'}}>{index}</Text>)
@@ -44,12 +46,26 @@ export default function Slider(props) {
             alignItems:'center',
             transform:[{translateX:props.Translation}]
           }}
+          onTouchStart={()=>{setLift(-50);setSize(CIRCLE_PICKER_SIZE)}}
           onTouchMove={ e => translatePickerOnScale(e) }
-          onTouchEnd={e=>{props.onSlidingEnd()}}
+          onTouchEnd={e=>{props.onSlidingEnd();setLift(0);;setSize(CIRCLE_PICKER_SIZE/2)}}
           >
-          <View style={styles.pickerInsider}>
+          <Animated.View style={{
+            width:size,
+            height:size,
+            borderRadius:size/2,
+            elevation:10,
+            shadowColor:'black',
+            shadowOffset:{width:5,height:5},
+            shadowOpacity:0.5,
+            shadowRadius:CIRCLE_PICKER_SIZE/4,
+            justifyContent:'center',
+            alignItems:'center',
+            backgroundColor:'black',
+            transform:[{translateY:lift}]
+          }}>
             <Text key={'value'} style={{fontWeight:'bold',color:'white'}}>{props.value}</Text>
-          </View>
+          </Animated.View>
         </Animated.View>
       </View>
   );
@@ -68,19 +84,6 @@ const styles = StyleSheet.create({
   scale:{
     flex:1,
     borderRadius:20
-  },
-  pickerInsider:{
-    width:CIRCLE_PICKER_SIZE/2,
-    height:CIRCLE_PICKER_SIZE/2,
-    borderRadius:CIRCLE_PICKER_SIZE/4,
-    elevation:10,
-    shadowColor:'black',
-    shadowOffset:{width:5,height:5},
-    shadowOpacity:0.5,
-    shadowRadius:CIRCLE_PICKER_SIZE/4,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'black'
   },
   scaleInside:{
     justifyContent:'space-evenly',

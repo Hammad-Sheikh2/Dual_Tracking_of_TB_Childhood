@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Animated, Easing, Dimensions, StatusBar, Alert } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, Animated, Easing, Dimensions, StatusBar, Alert, Pressable } from 'react-native';
 import React , { useState } from 'react';
 import Slider from './Components/Slider.js';
 import Symptom from './Components/Symptom.js';
@@ -20,7 +20,6 @@ export default function App() {
     outputRange:["0deg","360deg"]
   })
   const SetValue=()=>{
-    console.log('aya'+' '+isCompletionMessageShowed)
     data[currentDataItem].Value=sliderValue;
     if(!isCompletionMessageShowed){
       let isUnAnsweredQuestionRemain = false;
@@ -32,6 +31,10 @@ export default function App() {
       }
       if(!isUnAnsweredQuestionRemain){
         isCompletionMessageShowed=true;
+        setItem(data[0])
+        setSliderValue(data[0].Value===null?0:data[0].Value)
+        setTranslation((data[0].Value===null||data[0].Value===0)?0:(data[0].Value*(245/11)+5))
+        setCurrentDataItem(0)
         Alert.alert("All Done!!",
         "You have answered all today's question.",
         [
@@ -43,8 +46,6 @@ export default function App() {
           { text: "OK", onPress: () => console.log("Ok Pressed")}
         ]
         );
-        //console.log('aya'+' '+isCompletionMessageShowed)
-        setCurrentDataItem(currentDataItem)
         return;
       }
     }
