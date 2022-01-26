@@ -6,6 +6,7 @@ const COLORS = [
   '#fa0',
   '#f00'
 ]
+let widthOfScale;
 export default function Slider(props) {
   const [lift,setLift]= useState(0);
   const [size,setSize]= useState(CIRCLE_PICKER_SIZE/2);
@@ -27,6 +28,11 @@ export default function Slider(props) {
           start={{x:0,y:0}}
           end={{x:1,y:0}}
           style={styles.scale}
+          onLayout={(event)=>{
+            let {width,height} = event.nativeEvent.layout;
+            console.log(width,",",height)
+            widthOfScale=width;
+          }}
         >
           <View style={styles.scaleInside}>
             {sliderEachPointValue}

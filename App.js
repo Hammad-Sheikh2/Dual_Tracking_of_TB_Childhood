@@ -6,6 +6,8 @@ import { data } from './Data.js';
 import TopBar from './Components/TopBar.js';
 const {width,height} = Dimensions.get('window')
 let isCompletionMessageShowed=false;
+var index = 0;
+var nextIndex = 1;
 export default function App() {
   const [Item, setItem] = useState(data[0]);
   const [language, setLanguage] = useState('English');
@@ -52,10 +54,15 @@ export default function App() {
     if(currentDataItem>=data.length-1){
       return;
     }
-    setItem(data[currentDataItem+1])
-    setSliderValue(data[currentDataItem+1].Value===null?0:data[currentDataItem+1].Value)
-    setTranslation((data[currentDataItem+1].Value===null||data[currentDataItem+1].Value===0)?0:(data[currentDataItem+1].Value*(245/11)+5))
-    setCurrentDataItem(currentDataItem+1)
+    var currentItem = data[index];
+    var nextItem = data[nextIndex];
+    data[nextIndex] = currentItem;
+    data[index] = nextItem;
+    nextIndex++;
+    setItem(data[index])
+    setSliderValue(data[index].Value===null?0:data[index].Value)
+    setTranslation((data[index].Value===null||data[index].Value===0)?0:(data[index].Value*(245/11)+5))
+    setCurrentDataItem(index)
   }
   const GetQuestion=(Language)=>{
     switch(Language){
