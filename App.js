@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Animated, Easing, Dimensions, StatusBar, Alert, Pressable } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, Animated, Easing, Dimensions, StatusBar, Alert } from 'react-native';
 import React , { useState } from 'react';
 import Slider from './Components/Slider.js';
 import Symptom from './Components/Symptom.js';
