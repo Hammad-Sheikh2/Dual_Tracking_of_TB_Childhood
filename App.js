@@ -4,7 +4,6 @@ import Slider from './Components/Slider.js';
 import Symptom from './Components/Symptom.js';
 import { data } from './Data.js';
 import TopBar from './Components/TopBar.js';
-const {width,height} = Dimensions.get('window')
 let isCompletionMessageShowed=false;
 var index = 0;
 var nextIndex = 1;
