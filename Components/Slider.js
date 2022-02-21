@@ -6,7 +6,6 @@ const COLORS = [
   '#fa0',
   '#f00'
 ]
-const {width,height} = Dimensions.get('window')
 let w = null;
 export default function Slider(props) {
   const [lift,setLift]= useState(0);
@@ -19,14 +18,15 @@ export default function Slider(props) {
     //360
     //279
     //40.5
-    console.log(e.nativeEvent.pageX)
+    let width = props.width;
     let marginLeft=(width-w)/2;
-    console.log(e.nativeEvent.pageX>(marginLeft+w))
-    console.log(( e.nativeEvent.pageX < marginLeft ))
-    if( ( e.nativeEvent.pageX < marginLeft ) || ( e.nativeEvent.pageX > ( marginLeft + w ) ) )
+    if( ( e.nativeEvent.pageX < marginLeft + 40 ) || ( e.nativeEvent.pageX > ( marginLeft + w + 20 ) ) )
       return;
     props.setTranslation(e.nativeEvent.pageX-88);
-    props.setValue(parseInt((e.nativeEvent.pageX-marginLeft)/(w)*11))
+    console.log(e.nativeEvent.pageX);
+    console.log((e.nativeEvent.pageX-marginLeft));
+    console.log((e.nativeEvent.pageX-marginLeft)/w);
+    props.setValue(parseInt(((e.nativeEvent.pageX-marginLeft)/w)*10))
   }
   
   return (

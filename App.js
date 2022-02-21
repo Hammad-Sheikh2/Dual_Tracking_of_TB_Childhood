@@ -7,6 +7,7 @@ import TopBar from './Components/TopBar.js';
 let isCompletionMessageShowed=false;
 var index = 0;
 var nextIndex = 1;
+const {width,height} = Dimensions.get('window')
 export default function App() {
   const [Item, setItem] = useState(data[0]);
   const [language, setLanguage] = useState('English');
@@ -160,6 +161,7 @@ export default function App() {
       <Animated.View style={{width:'100%',transform:[{translateY:swipe}]}}>
         <View style={styles.EqualizerView}>
           <Slider 
+            width = {width}
             value={sliderValue} 
             setValue={setSliderValue}
             Translation={translation}
