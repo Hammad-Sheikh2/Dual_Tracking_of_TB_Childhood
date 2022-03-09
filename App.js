@@ -9,12 +9,14 @@ import {
   Dimensions,
   StatusBar,
   Alert,
+  TouchableOpacity
 } from "react-native";
 import React, { useState } from "react";
 import Slider from "./Components/Slider.js";
 import Symptom from "./Components/Symptom.js";
 import { data } from "./Data.js";
 import TopBar from "./Components/TopBar.js";
+const { width } = Dimensions.get("window");
 let isCompletionMessageShowed = false;
 var index = 0;
 var nextIndex = 1;
@@ -28,6 +30,7 @@ export default function App() {
   const [fade, setFade] = useState(new Animated.Value(1));
   const [currentDataItem, setCurrentDataItem] = useState(0);
   const [sliderValue, setSliderValue] = useState(0);
+  const [translation, setTranslation] = useState(sliderValue * (width/10));
   let rotateData = rotationAntiClockwise.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "360deg"],
@@ -47,6 +50,8 @@ export default function App() {
         setItem(data[0]);
         setSliderValue(data[0].Value === null ? 0 : data[0].Value);
         setCurrentDataItem(0);
+        setTranslation(data[0].Value * (245/10));
+        nextIndex = 1;
         Alert.alert("All Done!!", "You have answered all today's question.", [
           {
             text: "Cancel",
@@ -57,18 +62,23 @@ export default function App() {
         ]);
         return;
       }
+      if (currentDataItem >= data.length - 1) {
+        return;
+      }
+      var currentItem = data[index];
+      var nextItem = data[nextIndex];
+      data[nextIndex] = currentItem;
+      data[index] = nextItem;
+      nextIndex++;
+      setItem(data[index]);
+      setSliderValue(data[index].Value === null ? 0 : data[index].Value);
+      setCurrentDataItem(index);
+      setTranslation(data[index].Value * (245/10));
     }
-    if (currentDataItem >= data.length - 1) {
-      return;
+    else{
+      setItem(data[currentDataItem]);
+      setTranslation(data[currentDataItem].Value * (245/10));
     }
-    var currentItem = data[index];
-    var nextItem = data[nextIndex];
-    data[nextIndex] = currentItem;
-    data[index] = nextItem;
-    nextIndex++;
-    setItem(data[index]);
-    setSliderValue(data[index].Value === null ? 0 : data[index].Value);
-    setCurrentDataItem(index);
   };
   const GetQuestion = (Language) => {
     switch (Language) {
@@ -102,6 +112,7 @@ export default function App() {
           setCurrentDataItem={setCurrentDataItem}
           data={data[index * 4 + i]}
           setter={setItem}
+          setTranslation = {setTranslation}
         />
       );
     }
@@ -203,8 +214,24 @@ export default function App() {
             value={sliderValue}
             setValue={setSliderValue}
             onSlidingEnd={SetValue}
+            translation = {translation}
+            setTranslation = {setTranslation}
           />
         </View>
+        {
+        isCompletionMessageShowed?
+          <TouchableOpacity style={{alignItems: "center",marginHorizontal:100,borderRadius:30,borderWidth:2,padding:10}}  onPress={()=>{
+            Alert.alert("All Done!!", "Data is submitted.", [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              { text: "OK", onPress: () => console.log("Ok Pressed") },
+            ]);
+          }}><Text style={{fontWeight:"bold"}}>Submit</Text></TouchableOpacity>:
+          <React.Fragment></React.Fragment>
+        }
       </Animated.View>
       <Animated.View
         style={{

@@ -22,6 +22,7 @@ export default function Symptom(props) {
         props.setSliderValue(props.data.Value === null ? 0 : props.data.Value);
         props.setCurrentDataItem(props.currentDataItem);
         props.setter(props.data);
+        props.setTranslation(props.data.Value * ( 245 / 10 ));
       }}
       style={styles.container}
     >

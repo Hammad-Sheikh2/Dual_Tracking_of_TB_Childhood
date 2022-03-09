@@ -10,12 +10,11 @@ import {
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 const COLORS = ["#0f0", "#fa0", "#f00"];
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 let w = null;
 export default function Slider(props) {
   const [lift, setLift] = useState(0);
   const [size, setSize] = useState(CIRCLE_PICKER_SIZE / 2);
-  const [translation, setTranslation] = useState(props.value * (width/10));
   let sliderEachPointValue = [];
   for (let index = 0; index < 11; index++) {
     sliderEachPointValue.push(
@@ -35,7 +34,7 @@ export default function Slider(props) {
       e.nativeEvent.pageX > marginLeft + w + 20
     )
       return;
-    setTranslation(e.nativeEvent.pageX-80);
+    props.setTranslation(e.nativeEvent.pageX-80);
     props.setValue(parseInt(((e.nativeEvent.pageX - (marginLeft)) / w) * 10));
   };
   return (
@@ -60,7 +59,7 @@ export default function Slider(props) {
           borderColor: "rgba(0,0,0,0.1)",
           justifyContent: "center",
           alignItems: "center",
-          transform: [{ translateX: translation }],
+          transform: [{ translateX: props.translation }],
         }}
         onTouchStart={() => {
           setLift(-50);

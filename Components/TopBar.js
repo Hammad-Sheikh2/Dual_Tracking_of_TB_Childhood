@@ -9,7 +9,6 @@ import {
 import React, { useState } from "react";
 import { Languages } from "../Data";
 import { Audio } from "expo-av";
-
 export default TopBar = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [disabler, setDisabler] = useState(false);
