@@ -42,6 +42,7 @@ export default function App() {
       for (let index = 0; index < data.length; index++) {
         if (data[index].Value === null) {
           isUnAnsweredQuestionRemain = true;
+          nextIndex = index;
           index = data.length;
         }
       }
@@ -69,7 +70,6 @@ export default function App() {
       var nextItem = data[nextIndex];
       data[nextIndex] = currentItem;
       data[index] = nextItem;
-      nextIndex++;
       setItem(data[index]);
       setSliderValue(data[index].Value === null ? 0 : data[index].Value);
       setCurrentDataItem(index);
