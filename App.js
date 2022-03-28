@@ -84,7 +84,7 @@ export default function App() {
     switch (Language) {
       case "English":
         return Item.Question.English;
-      case "Urdu":
+      case "اُردُو":
         return Item.Question.Urdu;
     }
   };
@@ -216,6 +216,7 @@ export default function App() {
             onSlidingEnd={SetValue}
             translation = {translation}
             setTranslation = {setTranslation}
+            symptom = {Item.Name}
           />
         </View>
         {

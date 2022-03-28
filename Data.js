@@ -143,5 +143,5 @@ export let data=[
 
 export let Languages=[
     'English',
-    'Urdu'
+    'اُردُو'
 ]
