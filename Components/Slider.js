@@ -4,6 +4,7 @@ import {
   View,
   Animated,
   TouchableOpacity,
+  Image,
   Easing,
   Dimensions,
 } from "react-native";
@@ -15,6 +16,8 @@ let w = null;
 export default function Slider(props) {
   const [lift, setLift] = useState(0);
   const [size, setSize] = useState(CIRCLE_PICKER_SIZE / 2);
+  const [submittedButtonVisibility,setSubmittedButtonVisibility] = useState("none");
+  const [imageAnim,setImageAnim] = useState(false);
   let sliderEachPointValue = [];
   for (let index = 0; index < 11; index++) {
     sliderEachPointValue.push(
@@ -34,7 +37,7 @@ export default function Slider(props) {
       e.nativeEvent.pageX > marginLeft + w + 20
     )
       return;
-    props.setTranslation(e.nativeEvent.pageX-80);
+    props.setTranslation(e.nativeEvent.pageX-marginLeft);
     props.setValue(parseInt(((e.nativeEvent.pageX - (marginLeft)) / w) * 10));
   };
   return (
@@ -65,14 +68,12 @@ export default function Slider(props) {
           onTouchStart={() => {
             setLift(-50);
             setSize(CIRCLE_PICKER_SIZE);
+            setSubmittedButtonVisibility("flex");
           }}
           onTouchMove={(e) => {
             translatePickerOnScale(e);
           }}
           onTouchEnd={(e) => {
-            props.onSlidingEnd();
-            setLift(0);
-            setSize(CIRCLE_PICKER_SIZE / 2);
           }}
         >
           <Animated.View
@@ -95,6 +96,18 @@ export default function Slider(props) {
               {props.value}
             </Text>
           </Animated.View>
+          <TouchableOpacity style={{transform: [{ translateY: -23 }]}} onPress={()=>{
+            setImageAnim(true);
+            setTimeout(()=>{
+              setSubmittedButtonVisibility("none");
+              setImageAnim(false);
+              props.onSlidingEnd();
+              setLift(0);
+              setSize(CIRCLE_PICKER_SIZE / 2);
+            },500);
+            }}>
+              <Image style = {{width:size/2,height:size/2,display:submittedButtonVisibility}} source={imageAnim? require("../Icons/tickg.png") :  require("../Icons/tickb.png")} />
+          </TouchableOpacity>
         </Animated.View>
       </View>
       <View style={{flexDirection:"row",justifyContent:"space-between",margin:10}}>
