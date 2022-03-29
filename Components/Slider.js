@@ -42,6 +42,7 @@ export default function Slider(props) {
     props.setValue(parseInt(((e.nativeEvent.pageX - (marginLeft)) / w) * 10));
   };
   const animationZoomOut = () => {
+    HeartBeat.stopAnimation();
     Animated.timing(HeartBeat, {
       toValue: CIRCLE_PICKER_SIZE/4,
       duration: 1000,
@@ -51,6 +52,7 @@ export default function Slider(props) {
     setTimeout(animationZoomIn,1300);
   };
   const animationZoomIn = () => {
+    HeartBeat.stopAnimation();
     Animated.timing(HeartBeat, {
       toValue: CIRCLE_PICKER_SIZE/2,
       duration: 1000,
@@ -124,6 +126,7 @@ export default function Slider(props) {
               props.onSlidingEnd();
               setLift(0);
               setSize(CIRCLE_PICKER_SIZE / 2);
+              HeartBeat.stopAnimation();
             },300);
             }}>
               <Animated.Image style = {{width:HeartBeat,height:HeartBeat,display:submittedButtonVisibility}} source={imageAnim? require("../Icons/tickg.png") :  require("../Icons/tickb.png")} />
