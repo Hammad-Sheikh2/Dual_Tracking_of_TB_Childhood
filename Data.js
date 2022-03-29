@@ -11,7 +11,9 @@ export let data=[
         },
         Value:null,
         Icon: require('./Icons/cough.png'),
-        Animation:require('./LottieFilesGIFs/dry-cough.gif')
+        Animation:require('./LottieFilesGIFs/dry-cough.gif'),
+        SevereLabel:'Severe cough',
+        MildLabel:'No cough'
     },
     {
         Name:'Fever',
@@ -25,7 +27,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/fever.png'),
-        Animation:require('./LottieFilesGIFs/fever.gif')
+        Animation:require('./LottieFilesGIFs/fever.gif'),
+        SevereLabel:'Severe fever',
+        MildLabel:'No fever'
     },
     {
         Name:'Sweat',
@@ -39,7 +43,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/sweat.png'),
-        Animation:require('./LottieFilesGIFs/sweat.gif')
+        Animation:require('./LottieFilesGIFs/sweat.gif'),
+        SevereLabel:'Profuse sweating',
+        MildLabel:'No sweat'
     },
     {
         Name:'Anxiety',
@@ -53,7 +59,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/anxiety.png'),
-        Animation:require('./LottieFilesGIFs/anxiety.gif')
+        Animation:require('./LottieFilesGIFs/anxiety.gif'),
+        SevereLabel:'Very much anxious',
+        MildLabel:'No anxious'
     },
     {
         Name:'Playfulness',
@@ -67,7 +75,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/playfulness.png'),
-        Animation:require('./LottieFilesGIFs/playfulness.gif')
+        Animation:require('./LottieFilesGIFs/playfulness.gif'),
+        SevereLabel:'Not at all playful',
+        MildLabel:'Very playful'
     },
     {
         Name:'Sleep quality',
@@ -81,7 +91,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/sleep.png'),
-        Animation:require('./LottieFilesGIFs/sleep.gif')
+        Animation:require('./LottieFilesGIFs/sleep.gif'),
+        SevereLabel:'Did not sleep well',
+        MildLabel:'Slept very well'
     },
     {
         Name:'Care burden',
@@ -95,7 +107,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/caring.png'),
-        Animation:require('./LottieFilesGIFs/caring.gif')
+        Animation:require('./LottieFilesGIFs/caring.gif'),
+        SevereLabel:'Very tired',
+        MildLabel:'Not at all'
     },
     {
         Name:'SHS',
@@ -109,7 +123,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/shs.png'),
-        Animation:require('./LottieFilesGIFs/shs.gif')
+        Animation:require('./LottieFilesGIFs/shs.gif'),
+        SevereLabel:'Severely exposed',
+        MildLabel:'Not at all'
     },
     {
         Name:'Cooking fuel burning',
@@ -123,7 +139,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/cooking.png'),
-        Animation:require('./LottieFilesGIFs/cooking.gif')
+        Animation:require('./LottieFilesGIFs/cooking.gif'),
+        SevereLabel:'Severely exposed',
+        MildLabel:'Not at all'
     },
     {
         Name:'Traffic pollution',
@@ -137,7 +155,9 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/traffic.png'),
-        Animation:require('./LottieFilesGIFs/traffic.gif')
+        Animation:require('./LottieFilesGIFs/traffic.gif'),
+        SevereLabel:'Severely exposed',
+        MildLabel:'Not at all'
     }
 ]
 

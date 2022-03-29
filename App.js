@@ -216,7 +216,8 @@ export default function App() {
             onSlidingEnd={SetValue}
             translation = {translation}
             setTranslation = {setTranslation}
-            symptom = {Item.Name}
+            mildLabel = {Item.MildLabel}
+            severeLabel = {Item.SevereLabel}
           />
         </View>
         {

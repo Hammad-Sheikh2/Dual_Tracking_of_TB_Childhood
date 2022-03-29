@@ -16,6 +16,7 @@ let w = null;
 export default function Slider(props) {
   const [lift, setLift] = useState(0);
   const [size, setSize] = useState(CIRCLE_PICKER_SIZE / 2);
+  const [HeartBeat,setHeartBeat] = useState(new Animated.Value(CIRCLE_PICKER_SIZE/2));
   const [submittedButtonVisibility,setSubmittedButtonVisibility] = useState("none");
   const [imageAnim,setImageAnim] = useState(false);
   let sliderEachPointValue = [];
@@ -39,6 +40,24 @@ export default function Slider(props) {
       return;
     props.setTranslation(e.nativeEvent.pageX-marginLeft);
     props.setValue(parseInt(((e.nativeEvent.pageX - (marginLeft)) / w) * 10));
+  };
+  const animationZoomOut = () => {
+    Animated.timing(HeartBeat, {
+      toValue: CIRCLE_PICKER_SIZE/4,
+      duration: 1000,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+    setTimeout(animationZoomIn,1300);
+  };
+  const animationZoomIn = () => {
+    Animated.timing(HeartBeat, {
+      toValue: CIRCLE_PICKER_SIZE/2,
+      duration: 1000,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+    setTimeout(animationZoomOut,1300);
   };
   return (
     <View>
@@ -69,6 +88,7 @@ export default function Slider(props) {
             setLift(-50);
             setSize(CIRCLE_PICKER_SIZE);
             setSubmittedButtonVisibility("flex");
+            animationZoomOut();
           }}
           onTouchMove={(e) => {
             translatePickerOnScale(e);
@@ -104,15 +124,15 @@ export default function Slider(props) {
               props.onSlidingEnd();
               setLift(0);
               setSize(CIRCLE_PICKER_SIZE / 2);
-            },500);
+            },300);
             }}>
-              <Image style = {{width:size/2,height:size/2,display:submittedButtonVisibility}} source={imageAnim? require("../Icons/tickg.png") :  require("../Icons/tickb.png")} />
+              <Animated.Image style = {{width:HeartBeat,height:HeartBeat,display:submittedButtonVisibility}} source={imageAnim? require("../Icons/tickg.png") :  require("../Icons/tickb.png")} />
           </TouchableOpacity>
         </Animated.View>
       </View>
       <View style={{flexDirection:"row",justifyContent:"space-between",margin:10}}>
-        <Text style={[styles.label,{color:"#0f0"}]}>No {props.symptom}</Text>
-        <Text style={[styles.label,{color:"#f00"}]}>Severe {props.symptom}</Text>
+        <Text style={[styles.label,{color:"#0f0"}]}>{props.mildLabel}</Text>
+        <Text style={[styles.label,{color:"#f00"}]}>{props.severeLabel}</Text>
       </View>
     </View>
   );
