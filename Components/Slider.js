@@ -90,6 +90,7 @@ export default function Slider(props) {
             setLift(-50);
             setSize(CIRCLE_PICKER_SIZE);
             setSubmittedButtonVisibility("flex");
+            HeartBeat.stopAnimation();
             animationZoomOut();
           }}
           onTouchMove={(e) => {
