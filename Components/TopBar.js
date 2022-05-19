@@ -16,7 +16,7 @@ export default TopBar = (props) => {
     if (props.Language === "English") {
       return props.Audio.English;
     }
-    if (props.Language === "Urdu") {
+    if (props.Language === "اُردُو") {
       return props.Audio.Urdu;
     }
   };

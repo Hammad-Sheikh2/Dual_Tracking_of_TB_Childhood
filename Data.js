@@ -1,5 +1,7 @@
 export let data=[
     {
+        id:1,
+        frequency:1,
         Name:'Cough',
         Question:{
             English:'How severe was the cough today?',
@@ -16,6 +18,8 @@ export let data=[
         MildLabel:'No cough'
     },
     {
+        id:2,
+        frequency:1,
         Name:'Fever',
         Question:{
             English:'How severe was the fever today?',
@@ -32,6 +36,8 @@ export let data=[
         MildLabel:'No fever'
     },
     {
+        id:3,
+        frequency:1,
         Name:'Sweat',
         Question:{
             English:'How much did he/she sweat last night?',
@@ -48,6 +54,8 @@ export let data=[
         MildLabel:'No sweat'
     },
     {
+        id:4,
+        frequency:1,
         Name:'Anxiety',
         Question:{
             English:'How anxious was your child today?',
@@ -64,6 +72,8 @@ export let data=[
         MildLabel:'No anxious'
     },
     {
+        id:5,
+        frequency:1,
         Name:'Playfulness',
         Question:{
             English:'How playful was your kid today?',
@@ -80,6 +90,8 @@ export let data=[
         MildLabel:'Very playful'
     },
     {
+        id:6,
+        frequency:1,
         Name:'Sleep quality',
         Question:{
             English:'How was the quality of sleep last night?',
@@ -96,6 +108,8 @@ export let data=[
         MildLabel:'Slept very well'
     },
     {
+        id:7,
+        frequency:1,
         Name:'Care burden',
         Question:{
             English:'How much of a burden did you feel today?',
@@ -112,6 +126,8 @@ export let data=[
         MildLabel:'Not at all'
     },
     {
+        id:8,
+        frequency:1,
         Name:'SHS',
         Question:{
            English:'How much your child was exposed to cigarette smoke today?',
@@ -128,6 +144,8 @@ export let data=[
         MildLabel:'Not at all'
     },
     {
+        id:9,
+        frequency:1,
         Name:'Cooking fuel burning',
         Question:{
            English:'How much your child was exposed to cooking fuel burning today?',
@@ -144,6 +162,8 @@ export let data=[
         MildLabel:'Not at all'
     },
     {
+        id:10,
+        frequency:1,
         Name:'Traffic pollution',
         Question:{
            English:'How much your child was exposed to pollution caused by road traffic today?',
