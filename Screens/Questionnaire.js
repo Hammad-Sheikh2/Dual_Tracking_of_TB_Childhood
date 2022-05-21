@@ -230,18 +230,13 @@ import {
                   var query = "INSERT into Responses(childId,questionId,value,date) VALUES(?,?,?,?)"
                   txn.executeSql(
                     query, //Query to execute as prepared statement
-                    [0, value.id, value.Value, Date.now()],  
-                    function(tx, res) {console.log(res);console.log(tx)},  //Callback function to handle the result
+                    [0, value.id, value.Value, new Date],  
+                    function(tx, res) {console.log(res);},  //Callback function to handle the result
                     (txObj, error) => console.log('Error', error)
                   );
                 })
               });
               Alert.alert("All Done!!", "Data is submitted.", [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
                 { text: "OK", onPress: () => console.log("Ok Pressed") },
               ]);
             }}><Text style={{fontWeight:"bold"}}>Submit</Text></TouchableOpacity>:
