@@ -9,13 +9,20 @@ import {
     Dimensions,
     StatusBar,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    Alert
 } from "react-native";
 import React, { useState } from "react";
 import { Link } from "@react-navigation/native";
-
+import { openDatabase } from 'expo-sqlite';
+import { route } from "../assets/route";
+const db = openDatabase('db.DualTracking')
 
 export default function Register(props){
+    const [username,setUsername] = useState("");
+    const [password,setPassword] = useState("");
+    const [phn,setPhn] = useState("");
+    const [address,setAddress] = useState("");
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={false} />
@@ -26,11 +33,62 @@ export default function Register(props){
                 </Text>
             </View>
             <View style={[{flex:4},styles.registerBox]}>
-                <TextInput style={styles.inputBox} placeholder="Username"></TextInput>
-                <TextInput style={styles.inputBox} placeholder="Password"></TextInput>
-                <TextInput style={styles.inputBox} placeholder="Phone Number" keyboardType="phone-pad"></TextInput>
-                <TextInput style={[styles.inputBox,{height:100}]} placeholder="Address" multiline={true} numberOfLines={4}></TextInput>
-                <TouchableOpacity style={styles.registerButton} onPress={()=>{props.navigation.navigate("Family");}}>
+                <TextInput value={username} onChangeText={(value)=>{setUsername(value)}} style={styles.inputBox} placeholder="Username"></TextInput>
+                <TextInput value={password} onChangeText={(value)=>{setPassword(value)}} style={styles.inputBox} placeholder="Password"></TextInput>
+                <TextInput value={phn} onChangeText={(value)=>{setPhn(value)}} style={styles.inputBox} placeholder="Phone Number" keyboardType="phone-pad"></TextInput>
+                <TextInput value={address} onChangeText={(value)=>{setAddress(value)}} style={[styles.inputBox,{height:100}]} placeholder="Address" multiline={true} numberOfLines={4}></TextInput>
+                <TouchableOpacity style={styles.registerButton} onPress={()=>{
+                    if(username===""||password==""||phn===""||address==""){
+                        Alert.alert("Warning", "Incomplete Details.", [
+                            { text: "cancel", onPress: () => {} },
+                            { text: "ok", onPress: () => {} }
+                        ]);
+                        return;
+                    }
+                    fetch(`${route}/api/Users/SignUp`, {
+                        method: 'POST',
+                        headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                        userName: username,
+                        password: password,
+                        phoneNumber:phn,
+                        address:address
+                        }),
+                    }).then((response) => {
+                        console.log(response.status);
+                        if(response.status===200)
+                            return response.json();
+                        else if(response.status===400){
+                            throw new Error("User Already Registered");
+                        }
+                        else{
+                            throw new Error();
+                        }
+                    })
+                    .then((responseJson) => {
+                        console.log('getting data from fetch', responseJson)
+                        db.transaction(function(txn) {
+                            var query = "INSERT into User(id,name,pass) VALUES(?,?,?);";
+                            txn.executeSql(
+                              query, //Query to execute as prepared statement
+                              [`${responseJson.id.toString()}`,username,password],
+                              function(tx, res) {console.log(res)},  //Callback function to handle the result
+                              (txObj, error) => console.log('Error', error)
+                            );
+                        });
+                    })
+                    .catch(error => {
+                        Alert.alert("Error", error.toString(), [
+                            { text: "cancel", onPress: () => {} },
+                            { text: "ok", onPress: () => {} }
+                        ]);
+                        console.log(error)
+                    });
+
+                }}>
                     <Text style ={{color:'white',fontWeight:"bold"}}>Register</Text>
                 </TouchableOpacity>
             </View>

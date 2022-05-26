@@ -17,7 +17,7 @@ export default function FamilySHeader(props){
                 </TouchableOpacity>
                 <Text style={{fontSize:20,marginLeft:10,fontWeight:'bold'}}>Family</Text>
             </View>
-            <TouchableOpacity style={styles.button} onPress={()=>{props.navigation.navigate("AddChild");}}>
+            <TouchableOpacity style={styles.button} onPress={()=>{props.navigation.navigate("AddChild",{name:"",dob:new Date,gender:"MALE",userId:props.userId});}}>
                 <Image style={styles.icon} source={require('../Icons/add.png')}></Image>
             </TouchableOpacity>
         </View>

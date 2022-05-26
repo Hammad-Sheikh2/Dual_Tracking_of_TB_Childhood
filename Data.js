@@ -36,7 +36,7 @@ export let data=[
         MildLabel:'No fever'
     },
     {
-        id:3,
+        id:4,
         frequency:1,
         Name:'Sweat',
         Question:{
@@ -54,7 +54,7 @@ export let data=[
         MildLabel:'No sweat'
     },
     {
-        id:4,
+        id:9,
         frequency:1,
         Name:'Anxiety',
         Question:{
@@ -72,7 +72,7 @@ export let data=[
         MildLabel:'No anxious'
     },
     {
-        id:5,
+        id:8,
         frequency:1,
         Name:'Playfulness',
         Question:{
@@ -90,7 +90,7 @@ export let data=[
         MildLabel:'Very playful'
     },
     {
-        id:6,
+        id:10,
         frequency:1,
         Name:'Sleep quality',
         Question:{
@@ -108,7 +108,7 @@ export let data=[
         MildLabel:'Slept very well'
     },
     {
-        id:7,
+        id:11,
         frequency:1,
         Name:'Care burden',
         Question:{
@@ -126,7 +126,7 @@ export let data=[
         MildLabel:'Not at all'
     },
     {
-        id:8,
+        id:12,
         frequency:1,
         Name:'SHS',
         Question:{
@@ -144,7 +144,7 @@ export let data=[
         MildLabel:'Not at all'
     },
     {
-        id:9,
+        id:13,
         frequency:1,
         Name:'Cooking fuel burning',
         Question:{
@@ -162,7 +162,7 @@ export let data=[
         MildLabel:'Not at all'
     },
     {
-        id:10,
+        id:14,
         frequency:1,
         Name:'Traffic pollution',
         Question:{

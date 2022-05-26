@@ -1,27 +1,33 @@
 import { 
     View ,
     StyleSheet,
-    ImageBackground,
+    Image,
     Text,
     TouchableOpacity
 } from "react-native";
 import React from "react";
+const colors = ['red','#00ff00','purple','gray','black','orange','pink']
+
 
 export default function ChildIcon(props){
     return(
-        <TouchableOpacity style={styles.container} onPress={()=>{props.navigation.navigate('Questionnaire')}}>
-            <ImageBackground style={styles.imageBackground} source={require("../Icons/childLogo.jpg")} resizeMode={"stretch"} >
-                <View style={[styles.container,{padding:10}]}>
-                    <View style={styles.hBox}>
-                        <Text style={styles.text}>Male</Text>
-                        <TouchableOpacity style={styles.editButton}><Text style={styles.text}>Edit Details</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.container} onPress={()=>{props.navigation.navigate('Questionnaire',{childId:props.child.id,userId:props.userId})}}>
+            <View style={[styles.container,{borderRadius:30,backgroundColor:colors[Math.floor(Math.random() * 1000)%7]}]}>
+                <View style={styles.hBox}>
+                    <View>
+                        <Text style={[styles.text,{fontSize:30}]}>{props.child.name}</Text> 
+                        <Text style={styles.text}>{new Date(new Date() - new Date(props.child.dob)).getFullYear() - 1970} years old</Text>
                     </View>
-                    <View style={[styles.hBox,{alignItems:'flex-end'}]}>
-                        <Text style={[styles.text,{fontSize:25}]}>NAME</Text>
-                        <Text style={[styles.text,styles.inProgress]}>{/*Today's questions answered or not?*/}In Progress</Text>
-                    </View>
+                    <TouchableOpacity style={styles.editButton} onPress={()=>{
+                        props.navigation.navigate("AddChild",{name:props.child.name,dob:new Date(props.child.dob),gender:props.child.gender,userId:props.userId});
+                    }}><Image style={styles.genderIcon} source={require('../Icons/edit.png')}></Image></TouchableOpacity>
+                    
                 </View>
-            </ImageBackground>
+                <View style={[styles.hBox,{alignItems:'flex-end'}]}>
+                    <Image style={styles.genderIcon} source={(props.child.gender==="MALE"?require('../Icons/male.png'):require('../Icons/female.png'))}></Image>
+                    <Text style={[styles.text,styles.inProgress]}>{/*Today's questions answered or not?*/}In Progress</Text>
+                </View>
+            </View>
         </TouchableOpacity>
     );
 }
@@ -29,9 +35,11 @@ export default function ChildIcon(props){
 const styles = StyleSheet.create({
     container:{
         flex:1,
-    },
-    imageBackground:{
-        height:300
+        height:300,
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center',
+        padding:20,
     },
     text:{
         color:'white',
@@ -40,6 +48,7 @@ const styles = StyleSheet.create({
     },
     hBox:{
         flex:1,
+        width:'100%',
         flexDirection:'row',
         justifyContent:'space-between'
     },
@@ -50,15 +59,21 @@ const styles = StyleSheet.create({
         borderRadius:10,
         color:'red',
         shadowOpacity:40,
-        shadowOffset: {width: 10,height: 10},
+        shadowOffset: {width: 5,height: 5},
         shadowColor:'black',
-        elevation:20,
+        elevation:5,
     },
     editButton:{
         backgroundColor:'#000018',
-        padding:10,
-        paddingHorizontal:20,
-        borderRadius:10,
-        height:40
+        borderRadius:15,
+        justifyContent:'center',
+        alignItems:'center',
+        width:30,
+        height:30
+    },
+    genderIcon:{
+        height:30,
+        width:30,
+        resizeMode:'contain',
     }
 });

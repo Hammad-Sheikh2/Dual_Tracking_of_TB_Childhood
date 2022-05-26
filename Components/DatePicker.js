@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 
 export default function DatePicker(props){
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(props.value);
     const [show, setShow] = useState(false);
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;

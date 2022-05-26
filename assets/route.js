@@ -1,0 +1,1 @@
+export const route = 'https://dualtrackingapi20220524020021.azurewebsites.net'

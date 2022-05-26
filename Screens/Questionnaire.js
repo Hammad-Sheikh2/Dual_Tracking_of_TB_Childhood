@@ -17,12 +17,13 @@ import {
   import { data } from "../Data";
   import TopBar from "../Components/TopBar.js";
   import { openDatabase } from 'expo-sqlite';
+import { route } from "../assets/route";
   const db = openDatabase('db.DualTracking')
   const { width } = Dimensions.get("window");
   let isCompletionMessageShowed = false;
   var index = 0;
   var nextIndex = 1;
-  export default function Questionnaire() {
+  export default function Questionnaire(props) {
     const [Item, setItem] = useState(data[0]);
     const [language, setLanguage] = useState("English");
     const [swipe, setSwipe] = useState(new Animated.Value(0));
@@ -225,7 +226,84 @@ import {
           {
           isCompletionMessageShowed?
             <TouchableOpacity style={{alignItems: "center",marginHorizontal:100,borderRadius:30,borderWidth:2,padding:10}}  onPress={()=>{
+              
               db.transaction(function(txn) {
+                var query = `Select * from user where id = '${props.route.params.userId}'`;
+                txn.executeSql(
+                    query, //Query to execute as prepared statement
+                    [],
+                    function(tx, res) {
+                        console.log(res.rows._array[0]);
+                        let user = res.rows._array[0];
+                        fetch(`${route}/api/authentication/login`, {
+                            method: "POST",
+                            headers: {
+                              Accept: "application/json",
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              userName: user.name,
+                              password: user.pass,
+                            }),
+                        })
+                        .then((response) => {
+                            if (response.status === 200) {
+                                return response.json();
+                            } else if (response.status === 400) {
+                                throw new Error("Invalid Login Attempt");
+                            } else {
+                                throw new Error();
+                            }
+                            })
+                        .then((responseJson) => {
+                            console.log("ADD CHILD Login ---> DATA : ", responseJson);
+                            let responseArr = [];
+                            data.forEach((value)=>{
+                              responseArr.push({
+                                Id:0,
+                                Value:value.Value,
+                                Date: new Date().toISOString(),
+                                QuestionnaireId:value.id,
+                                ChildId:props.route.params.childId
+                              });
+                            })
+                            console.log(responseArr);
+                            fetch(`${route}/api/Responses/AddList`, {
+                                method: "POST",
+                                headers: {
+                                  Accept: "application/json",
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(responseArr),
+                            })
+                            .then((response) => {
+                                if (response.status === 200) {
+                                } else if (response.status === 400) {
+                                    throw new Error("Invalid Login Attempt");
+                                } else {
+                                    throw new Error();
+                                }
+                                })
+                            .catch((error) => {
+                                Alert.alert("Error", error.toString(), [
+                                    { text: "cancel", onPress: () => {} },
+                                    { text: "ok", onPress: () => {} },
+                                ]);
+                                  console.log(error);
+                            });
+                        })
+                        .catch((error) => {
+                            Alert.alert("Error", error.toString(), [
+                                { text: "cancel", onPress: () => {} },
+                                { text: "ok", onPress: () => {} },
+                            ]);
+                            console.log(error);
+                        });
+                    },  //Callback function to handle the result
+                    (txObj, error) => console.log('Error', error)
+                );
+            });
+              /*db.transaction(function(txn) {
                 data.forEach((value)=>{
                   var query = "INSERT into Responses(childId,questionId,value,date) VALUES(?,?,?,?)"
                   txn.executeSql(
@@ -238,7 +316,7 @@ import {
               });
               Alert.alert("All Done!!", "Data is submitted.", [
                 { text: "OK", onPress: () => console.log("Ok Pressed") },
-              ]);
+              ]);*/
             }}><Text style={{fontWeight:"bold"}}>Submit</Text></TouchableOpacity>:
             <React.Fragment></React.Fragment>
           }
