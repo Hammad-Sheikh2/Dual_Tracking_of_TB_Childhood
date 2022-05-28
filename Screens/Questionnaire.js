@@ -330,8 +330,8 @@ import { route } from "../assets/route";
         >
           <View style={styles.BottomBar}>
             <View style={styles.BottomBarRow}>
-              <View
-                onStartShouldSetResponder={() => {
+              <TouchableOpacity
+                onPress = {() => {
                   animateViewSwipe();
                 }}
               >
@@ -343,7 +343,7 @@ import { route } from "../assets/route";
                   }}
                   source={require("../Icons/dropImage.png")}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
             {BottomBarContent}
           </View>

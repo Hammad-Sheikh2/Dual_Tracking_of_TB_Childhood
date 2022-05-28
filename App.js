@@ -15,21 +15,21 @@ db.transaction(function(txn) {
   txn.executeSql(
     query, //Query to execute as prepared statement
     [],  
-    function(tx, res) {console.log(res)},  //Callback function to handle the result
+    function(tx, res) {console.log("Table Creation Responses :",res)},  //Callback function to handle the result
     (txObj, error) => console.log('Error', error)
   );
   query = "CREATE TABLE IF NOT EXISTS Children (id INTEGER PRIMARY KEY, name VARCHAR(255) NOT NULL, dob DATE NOT NULL, gender VARCHAR(10) NOT NULL, userId VARCHAR(255) NOT NULL);"
   txn.executeSql(
     query,  //Query to execute as prepared statement
     [],
-    function(tx, res) {console.log(res)}, //Callback function to handle the result
+    function(tx, res) {console.log("Table Creation Children :",res)}, //Callback function to handle the result
     (txObj, error) => console.log('Error', error)
   );
   query = "CREATE TABLE IF NOT EXISTS User (id VARCHAR(255) PRIMARY KEY, name VARCHAR(255) NOT NULL, pass VARCHAR(255) NOT NULL);"
   txn.executeSql(
     query,  //Query to execute as prepared statement
     [],
-    function(tx, res) {console.log(res)}, //Callback function to handle the result
+    function(tx, res) {console.log("Table Creation User :",res)}, //Callback function to handle the result
     (txObj, error) => console.log('Error', error)
   );
 });

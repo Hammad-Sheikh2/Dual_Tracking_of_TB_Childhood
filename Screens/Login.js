@@ -29,7 +29,7 @@ export default function Login(props) {
         query, //Query to execute as prepared statement
         [],
         function (tx, res) {
-          console.log(res);
+          console.log("Login Check User Already Exists or Not :",res.rows._array);
           if (res.rows._array.length > 0) {
             props.navigation.navigate("Family", {
               userId: res.rows._array[0].id,
@@ -41,6 +41,89 @@ export default function Login(props) {
       );
     });
   }, []);
+  function ValidateUser(){
+    if (username === "" || password == "") {
+      Alert.alert("Warning", "Enter login credentials.", [
+        { text: "cancel", onPress: () => {} },
+        { text: "ok", onPress: () => {} },
+      ]);
+      return;
+    }
+    setDisabler(true);
+    fetch(`${route}/api/authentication/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: username,
+        password: password,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 400) {
+          throw new Error("Invalid Login Attempt");
+        } else {
+          throw new Error();
+        }
+      })
+      .then((responseJson) => {
+        console.log("User Complete Login Data", responseJson);
+        db.transaction(function (txn) {
+          var query = `Select * from User where id = '${responseJson.id}';`;
+          txn.executeSql(
+            query, //Query to execute as prepared statement
+            [],
+            function (tx, res) {
+              console.log("Check User is Saved or Not : ",res);
+              if (res.rows._array.length === 0) {
+                query = `Insert into user(id,name,pass) values(?,?,?)`
+                txn.executeSql(
+                  query, //Query to execute as prepared statement
+                  [responseJson.id.toString(),username,password],
+                  function (tx, res) {
+                    console.log("Login Screen : Insert User Data --> Rows Affected : ",res.rowsAffected);
+                    if(res.rowsAffected===1){
+                      if(responseJson.children.length>0){
+                        responseJson.children.forEach(child => {
+                        var query = "INSERT into Children(id,name,dob,gender,userId) VALUES(?,?,?,?,?);"
+                        txn.executeSql(
+                          query, //Query to execute as prepared statement
+                          [child.id, child.name,(new Date(child.dateOfBirth)).toDateString(), child.gender, child.parentId],
+                          function(tx, res) {console.log([child.id, child.name,(new Date(child.dateOfBirth)).toDateString(), child.gender, child.parentId],"Rows Affected :",res.rowsAffected);},  //Callback function to handle the result
+                          (txObj, error) => console.log('Error', error)
+                        );
+                        });
+                      }
+                    }
+                  }, //Callback function to handle the result
+                  (txObj, error) => console.log("Error", error)
+                );
+              }
+            }, //Callback function to handle the result
+            (txObj, error) => console.log("Error", error)
+          );
+        });
+        setUsername("");
+        setPassword("");
+        setDisabler(false);
+        //Database storing for auto login.
+        props.navigation.navigate("Family", {
+          userId: responseJson.id.toString(),
+        });
+      })
+      .catch((error) => {
+        Alert.alert("Error", error.toString(), [
+          { text: "cancel", onPress: () => {} },
+          { text: "ok", onPress: () => {} },
+        ]);
+        console.log(error);
+        setDisabler(false);
+      });
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={false} />
@@ -68,54 +151,7 @@ export default function Login(props) {
         <TouchableOpacity
           style={styles.loginButton}
           disabled={disabler}
-          onPress={() => {
-            if (username === "" || password == "") {
-              Alert.alert("Warning", "Enter login credentials.", [
-                { text: "cancel", onPress: () => {} },
-                { text: "ok", onPress: () => {} },
-              ]);
-              return;
-            }
-            setDisabler(true);
-            fetch(`${route}/api/authentication/login`, {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                userName: username,
-                password: password,
-              }),
-            })
-              .then((response) => {
-                if (response.status === 200) {
-                  return response.json();
-                } else if (response.status === 400) {
-                  throw new Error("Invalid Login Attempt");
-                } else {
-                  throw new Error();
-                }
-              })
-              .then((responseJson) => {
-                console.log("getting data from fetch", responseJson);
-                setUsername("");
-                setPassword("");
-                setDisabler(false);
-                //Database storing for auto login.
-                props.navigation.navigate("Family", {
-                  userId: responseJson.id.toString(),
-                });
-              })
-              .catch((error) => {
-                Alert.alert("Error", error.toString(), [
-                  { text: "cancel", onPress: () => {} },
-                  { text: "ok", onPress: () => {} },
-                ]);
-                console.log(error);
-                setDisabler(false);
-              });
-          }}
+          onPress={ValidateUser}
         >
           <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
         </TouchableOpacity>

@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import DatePicker from "../Components/DatePicker.js"
 import { openDatabase } from 'expo-sqlite';
 import { route } from "../assets/route.js";
+import { getAssetByID } from "react-native-web/dist/cjs/modules/AssetRegistry";
 const db = openDatabase('db.DualTracking')
 
 const GenderSelectionDropdown = (props)=>{
@@ -21,7 +22,7 @@ const GenderSelectionDropdown = (props)=>{
         <TouchableOpacity style={[styles.inputBox,{flexDirection:'row',justifyContent:"space-between",alignItems:'center'}]}
             onPress={()=>{
                 Alert.alert("Gender", "Select gender.", [
-                    { text: "Male", onPress: () => {setGender("MALE");props.setValue("MAlE")} },
+                    { text: "Male", onPress: () => {setGender("MALE");props.setValue("MALE")} },
                     { text: "FEMALE", onPress: () => {setGender("FEMALE");props.setValue("FEMALE")} }
                   ]);
             }}
@@ -104,7 +105,116 @@ export default function AddChild(props){
                                 txn.executeSql(
                                     query, //Query to execute as prepared statement
                                     [responseJson.id, name, dob.toDateString(), gender, user.id.toString()],
-                                    function(tx, res) {console.log(res.rows);console.log(tx)},  //Callback function to handle the result
+                                    function(tx, res) {
+                                        console.log([responseJson.id, name, dob.toDateString(), gender, user.id.toString()],"Rows Affected :",res.rowsAffected);
+                                        Alert.alert("Success","Child Added",[
+                                            { text: "ok", onPress: () => {
+                                                props.route.params.navigation.goBack();
+                                            } },
+                                        ]);
+                                    },  //Callback function to handle the result
+                                    (txObj, error) => console.log('Error', error)
+                                );
+                            });
+                        })
+                        .catch((error) => {
+                            Alert.alert("Error", error.toString(), [
+                                { text: "cancel", onPress: () => {} },
+                                { text: "ok", onPress: () => {} },
+                            ]);
+                              console.log(error);
+                        });
+                    })
+                    .catch((error) => {
+                        Alert.alert("Error", error.toString(), [
+                            { text: "cancel", onPress: () => {} },
+                            { text: "ok", onPress: () => {} },
+                        ]);
+                        console.log(error);
+                    });
+                },  //Callback function to handle the result
+                (txObj, error) => console.log('Error', error)
+            );
+        });
+    }
+    const UpdateChild = ()=>{
+        //Extra code which we will remove later.
+        db.transaction(function(txn) {
+            var query = `Select * from user where id = '${props.route.params.userId}'`;
+            txn.executeSql(
+                query, //Query to execute as prepared statement
+                [],
+                function(tx, res) {
+                    console.log(res.rows._array[0]);
+                    let user = res.rows._array[0];
+                    fetch(`${route}/api/authentication/login`, {
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          userName: user.name,
+                          password: user.pass,
+                        }),
+                    })
+                    .then((response) => {
+                        if (response.status === 200) {
+                            return response.json();
+                        } else if (response.status === 400) {
+                            throw new Error("Invalid Login Attempt");
+                        } else {
+                            throw new Error();
+                        }
+                        })
+                    .then((responseJson) => {
+                        console.log("ADD CHILD Login ---> DATA : ", responseJson);
+                        console.log({
+                            id:props.route.params.id,
+                            name: name,
+                            parentId: user.id,
+                            dateOfBirth:dob.toISOString(),
+                            gender:gender
+                        });
+                        console.log(`${route}/api/Children/Update/${props.route.params.id}`);
+                        fetch(`${route}/api/Children/Update/${props.route.params.id}`, {
+                            method: "PUT",
+                            headers: {
+                              Accept: "application/json",
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                id:props.route.params.id,
+                                name: name,
+                                parentId: user.id,
+                                dateOfBirth:dob.toISOString(),
+                                gender:gender
+                            }),
+                        })
+                        .then((response) => {
+                            if (response.status === 200) {
+                                return response.json();
+                            } else if (response.status === 400) {
+                                throw new Error("Invalid Login Attempt");
+                            } else {
+                                throw new Error();
+                            }
+                            })
+                        .then((responseJson) => {
+                            console.log("ADD CHILD ---> DATA : ", responseJson);
+                            db.transaction(function(txn) {
+                                var query = `Update Children SET name = '${name}', dob = '${dob.toDateString()}', gender = '${gender}' WHERE id = ${props.route.params.id};`;
+                                txn.executeSql(
+                                    query, //Query to execute as prepared statement
+                                    [],
+                                    function(tx, res) {
+                                        console.log([responseJson.id, name, dob.toDateString(), gender, user.id.toString()],"Rows Affected :",res.rowsAffected);
+                                        Alert.alert("Success","Child Updated",[
+                                            { text: "ok", onPress: () => {
+                                                props.route.params.navigation.goBack();
+                                            } },
+                                        ]);
+                                    },  //Callback function to handle the result
                                     (txObj, error) => console.log('Error', error)
                                 );
                             });
@@ -133,8 +243,8 @@ export default function AddChild(props){
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={false} />
             <View style={{flex:2,justifyContent:'center',alignItems:'center',marginVertical:40}}>
-                <Text style={{fontSize:30,fontWeight:'bold',margin:20,color:'#000018'}}>Add Child</Text>
-                <Text style={{fontSize:15}}>Add to track your child's tuberculosis.</Text>
+                <Text style={{fontSize:30,fontWeight:'bold',margin:20,color:'#000018'}}>{props.route.params.name===''?"Add Child":"Update Child"}</Text>
+                <Text style={{fontSize:15}}>{props.route.params.name===''?"Add to track your child's tuberculosis.":`Update child's details`}</Text>
             </View>
             <View style={[{flex:4},styles.registerBox]}>
                 <TextInput style={styles.inputBox} value={name} onChangeText={(e)=>{setName(e)}} placeholder="Name"></TextInput>
@@ -149,9 +259,9 @@ export default function AddChild(props){
                         ]);
                         return;
                     }
-                    props.route.params.name===''?AddChild():()=>{};
+                    props.route.params.name===''?AddChild():UpdateChild();
                 }}>
-                    <Text style ={{color:'white',fontWeight:"bold"}}>Add</Text>
+                    <Text style ={{color:'white',fontWeight:"bold"}}>{props.route.params.name===''?"Add":"Update"}</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

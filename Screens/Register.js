@@ -3,10 +3,6 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
-    Animated,
-    Easing,
-    Dimensions,
     StatusBar,
     TouchableOpacity,
     TextInput,
@@ -69,13 +65,18 @@ export default function Register(props){
                         }
                     })
                     .then((responseJson) => {
-                        console.log('getting data from fetch', responseJson)
+                        console.log('Registered User Data :', responseJson)
                         db.transaction(function(txn) {
                             var query = "INSERT into User(id,name,pass) VALUES(?,?,?);";
                             txn.executeSql(
                               query, //Query to execute as prepared statement
                               [`${responseJson.id.toString()}`,username,password],
-                              function(tx, res) {console.log(res)},  //Callback function to handle the result
+                              function(tx, res) {
+                                  console.log("Rows Affected :",res.rowsAffected)
+                                  Alert.alert("Success", "You successfully registered your account.", [
+                                    { text: "ok", onPress: () => {props.navigation.goBack();} }
+                                ]);
+                              },  //Callback function to handle the result
                               (txObj, error) => console.log('Error', error)
                             );
                         });

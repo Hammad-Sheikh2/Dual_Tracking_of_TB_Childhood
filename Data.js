@@ -36,6 +36,24 @@ export let data=[
         MildLabel:'No fever'
     },
     {
+        id:3,
+        frequency:7,
+        Name:'Cervical Lymph Nodes',
+        Question:{
+            English:'Have you noticed an increase in the size of the glands around the neck?',
+            Urdu:'کیا آپ نے گردن کے گرد غدود کے سائز میں اضافہ دیکھا ہے؟'
+        },
+        Audio:{
+            English:require('./audios/English/fever.mp3'),
+            Urdu:require('./audios/Urdu/fever.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/fever.png'),
+        Animation:require('./LottieFilesGIFs/fever.gif'),
+        SevereLabel:'Double the size',
+        MildLabel:'No increase'
+    },
+    {
         id:4,
         frequency:1,
         Name:'Sweat',
@@ -52,6 +70,60 @@ export let data=[
         Animation:require('./LottieFilesGIFs/sweat.gif'),
         SevereLabel:'Profuse sweating',
         MildLabel:'No sweat'
+    },
+    {
+        id:5,
+        frequency:7,
+        Name:'Appetite',
+        Question:{
+            English:'How badly was the appetite of a child affected last week?',
+            Urdu:'پچھلے ہفتے بچے کی بھوک کتنی بری طرح متاثر ہوئی؟'
+        },
+        Audio:{
+            English:require('./audios/English/sweat.mp3'),
+            Urdu:require('./audios/Urdu/sweat.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/sweat.png'),
+        Animation:require('./LottieFilesGIFs/sweat.gif'),
+        SevereLabel:'Full appetite',
+        MildLabel:'No appetite'
+    },
+    {
+        id:6,
+        frequency:7,
+        Name:'Abdominal pain',
+        Question:{
+            English:'How badly a child experienced abdominal pain during the past week?',
+            Urdu:'پچھلے ہفتے کے دوران ایک بچے کو پیٹ میں کتنی بری طرح درد ہوا؟'
+        },
+        Audio:{
+            English:require('./audios/English/anxiety.mp3'),
+            Urdu:require('./audios/Urdu/anxiety.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/anxiety.png'),
+        Animation:require('./LottieFilesGIFs/anxiety.gif'),
+        SevereLabel:'Severe abdominal pain',
+        MildLabel:'No pain'
+    },
+    {
+        id:7,
+        frequency:14,
+        Name:'Weight gain',
+        Question:{
+            English:'How difficult was it for a kid to gain weight in past 15 days?',
+            Urdu:'پچھلے 15 دنوں میں ایک بچے کے لیے وزن بڑھانا کتنا مشکل تھا؟'
+        },
+        Audio:{
+            English:require('./audios/English/playfulness.mp3'),
+            Urdu:require('./audios/Urdu/playfulness.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/playfulness.png'),
+        Animation:require('./LottieFilesGIFs/playfulness.gif'),
+        SevereLabel:'Not at all difficult',
+        MildLabel:'Very difficult'
     },
     {
         id:9,
@@ -168,6 +240,24 @@ export let data=[
         Question:{
            English:'How much your child was exposed to pollution caused by road traffic today?',
             Urdu:'آج آپ کا بچہ سڑک ٹریفک کی وجہ سے آلودگی کا کتنا شکار ہوا؟'
+        },
+        Audio:{
+            English:require('./audios/English/traffic.mp3'),
+            Urdu:require('./audios/Urdu/traffic.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/traffic.png'),
+        Animation:require('./LottieFilesGIFs/traffic.gif'),
+        SevereLabel:'Severely exposed',
+        MildLabel:'Not at all'
+    },
+    {
+        id:15,
+        frequency:7,
+        Name:'Overall exposure',
+        Question:{
+           English:'How much your child was exposed to air pollutants last week?',
+            Urdu:'پچھلے ہفتے آپ کا بچہ کتنا فضائی آلودگی کا شکار ہوا؟'
         },
         Audio:{
             English:require('./audios/English/traffic.mp3'),

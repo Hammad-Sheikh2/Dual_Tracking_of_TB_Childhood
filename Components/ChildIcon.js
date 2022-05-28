@@ -12,14 +12,14 @@ const colors = ['red','#00ff00','purple','gray','black','orange','pink']
 export default function ChildIcon(props){
     return(
         <TouchableOpacity style={styles.container} onPress={()=>{props.navigation.navigate('Questionnaire',{childId:props.child.id,userId:props.userId})}}>
-            <View style={[styles.container,{borderRadius:30,backgroundColor:colors[Math.floor(Math.random() * 1000)%7]}]}>
+            <View style={[styles.container,{borderRadius:30,backgroundColor:colors[props.child.id%7]}]}>
                 <View style={styles.hBox}>
                     <View>
                         <Text style={[styles.text,{fontSize:30}]}>{props.child.name}</Text> 
                         <Text style={styles.text}>{new Date(new Date() - new Date(props.child.dob)).getFullYear() - 1970} years old</Text>
                     </View>
                     <TouchableOpacity style={styles.editButton} onPress={()=>{
-                        props.navigation.navigate("AddChild",{name:props.child.name,dob:new Date(props.child.dob),gender:props.child.gender,userId:props.userId});
+                        props.navigation.navigate("AddChild",{id:props.child.id,name:props.child.name,dob:new Date(props.child.dob),gender:props.child.gender,userId:props.userId,navigation:props.navigation});
                     }}><Image style={styles.genderIcon} source={require('../Icons/edit.png')}></Image></TouchableOpacity>
                     
                 </View>

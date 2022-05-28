@@ -29,7 +29,7 @@ export default function Family(props){
                 query, //Query to execute as prepared statement
                 [],
                 function(tx, res) {
-                    console.log(res.rows._array);
+                    console.log("Family Screen: Saved Children Data : ",res.rows._array);
                     let temp = [];
                     res.rows._array.forEach((child)=>{
                         //console.log(child);
@@ -67,6 +67,5 @@ const styles = StyleSheet.create({
     scrollView:{
         flex:1,
         width:'100%',
-
     }
 })
