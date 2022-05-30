@@ -18,6 +18,7 @@ import ChildIcon from "../Components/ChildIcon";
 import FamilySHeader from "../Components/FamilySHeader";
 import NetInfo from '@react-native-community/netinfo';
 import { openDatabase } from 'expo-sqlite';
+import { data } from "../Data";
 const db = openDatabase('db.DualTracking')
 export default function Family(props){
     const [Children,setChildren] = useState([]);
@@ -33,9 +34,36 @@ export default function Family(props){
                     let temp = [];
                     res.rows._array.forEach((child)=>{
                         //console.log(child);
-                        temp.push(<ChildIcon key={child.id} child={child} userId={props.route.params.userId} navigation={props.navigation}></ChildIcon>);
+                        query = `Select * , max(date) from Responses WHERE childId = ${child.id} GROUP BY questionId Order By date; `
+                        txn.executeSql(
+                            query,  //Query to execute as prepared statement
+                            [],
+                            function(tx, res) {
+                                console.log("Get Latest Responses of All Questionnaires of a Specific User :",res)
+                                let Questionnaires = JSON.parse(JSON.stringify(data));
+                                let rows = res.rows._array;
+                                for (let index = 0; index < Questionnaires.length; index++) {
+                                    let response = rows.find(value => value.questionId === Questionnaires[index].id);
+                                    if(response!=undefined){
+                                        var ONE_DAY = 1000 * 60 * 60 * 24;
+                                        var daysDiff = Math.floor(Math.abs(new Date().getTime() - new Date(response.date).getTime())/ONE_DAY);
+                                        if(daysDiff===0){
+                                            Questionnaires[index].Value = response.value;
+                                        }
+                                        else if(daysDiff<Questionnaires[index].frequency){
+                                            Questionnaires.splice(index,1);
+                                            index--;
+                                        }
+                                    }
+                                }
+                                console.log(Questionnaires);
+                                temp.push(<ChildIcon key={child.id} child={child} userId={props.route.params.userId} navigation={props.navigation} Questionnaires={Questionnaires}></ChildIcon>);
+                                setChildren([]);
+                                setChildren(temp);
+                            }, //Callback function to handle the result
+                            (txObj, error) => console.log('Error', error)
+                        );
                     });
-                    setChildren(temp);
                 },  //Callback function to handle the result
                 (txObj, error) => console.log('Error', error)
             );

@@ -87,7 +87,7 @@ export default function Slider(props) {
             transform: [{ translateX: props.translation }],
           }}
           onTouchStart={() => {
-            setLift(-50);
+            setLift(-38);
             setSize(CIRCLE_PICKER_SIZE);
             setSubmittedButtonVisibility("flex");
             HeartBeat.stopAnimation();
@@ -99,44 +99,46 @@ export default function Slider(props) {
           onTouchEnd={(e) => {
           }}
         >
-          <Animated.View
-            style={{
-              width: size,
-              height: size,
-              borderRadius: size / 2,
-              elevation: 10,
-              shadowColor: "black",
-              shadowOffset: { width: 5, height: 5 },
-              shadowOpacity: 0.5,
-              shadowRadius: CIRCLE_PICKER_SIZE / 4,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "black",
-              transform: [{ translateY: lift }],
-            }}
-          >
-            <Text key={"value"} style={{ fontWeight: "bold", color: "white" }}>
+          
+          <Text key={"value"} style={{ fontWeight: "bold", color: "black"}}>
               {props.value}
-            </Text>
-          </Animated.View>
-          <TouchableOpacity style={{transform: [{ translateY: -23 }]}} onPress={()=>{
-            setImageAnim(true);
-            setTimeout(()=>{
-              setSubmittedButtonVisibility("none");
-              setImageAnim(false);
-              props.onSlidingEnd();
-              setLift(0);
-              setSize(CIRCLE_PICKER_SIZE / 2);
-              HeartBeat.stopAnimation();
-            },300);
-            }}>
-              <Animated.Image style = {{width:HeartBeat,height:HeartBeat,display:submittedButtonVisibility}} source={imageAnim? require("../Icons/tickg.png") :  require("../Icons/tickb.png")} />
-          </TouchableOpacity>
+          </Text>
         </Animated.View>
       </View>
       <View style={{flexDirection:"row",justifyContent:"space-between",margin:10}}>
         <Text style={[styles.label,{color:"#0f0"}]}>{props.mildLabel}</Text>
         <Text style={[styles.label,{color:"#f00"}]}>{props.severeLabel}</Text>
+      </View>
+      <View style={{justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity
+              style={{
+                width: size,
+                height: size,
+                borderRadius: size / 2,
+                elevation: 10,
+                shadowColor: "black",
+                shadowOffset: { width: 5, height: 5 },
+                shadowOpacity: 0.5,
+                shadowRadius: CIRCLE_PICKER_SIZE / 4,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "black",
+                display:submittedButtonVisibility
+              }}
+              onPress={()=>{
+                setImageAnim(true);
+                setTimeout(()=>{
+                  setSubmittedButtonVisibility("none");
+                  setImageAnim(false);
+                  props.onSlidingEnd();
+                  setLift(0);
+                  setSize(CIRCLE_PICKER_SIZE / 2);
+                  //HeartBeat.stopAnimation();
+                },300);
+              }}
+            >
+            <Animated.Image style = {{width:CIRCLE_PICKER_SIZE/2,height:CIRCLE_PICKER_SIZE/2,display:submittedButtonVisibility}} source={imageAnim? require("../Icons/tickg.png") :  require("../Icons/tickw.png")} />
+        </TouchableOpacity>
       </View>
     </View>
   );

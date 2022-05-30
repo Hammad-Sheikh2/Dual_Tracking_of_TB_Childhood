@@ -3,16 +3,24 @@ import {
     StyleSheet,
     Image,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
-import React from "react";
+import React, {useState,useEffect} from "react";
 const colors = ['red','#00ff00','purple','gray','black','orange','pink']
 
 
 export default function ChildIcon(props){
+    const [status,setStatus] = useState("");
+    useEffect(()=>{
+        let count = props.Questionnaires.filter(e => e.Value!=null).length;
+        setStatus(`${count} / ${props.Questionnaires.length}`);
+    },[])
     return(
-        <TouchableOpacity style={styles.container} onPress={()=>{props.navigation.navigate('Questionnaire',{childId:props.child.id,userId:props.userId})}}>
-            <View style={[styles.container,{borderRadius:30,backgroundColor:colors[props.child.id%7]}]}>
+        <TouchableOpacity style={styles.container} onPress={()=>{
+            props.navigation.navigate('Questionnaire',{childId:props.child.id,userId:props.userId,Questionnaires:props.Questionnaires})
+        }}>
+            <View style={[styles.container,{padding:20,borderRadius:30,backgroundColor:colors[props.child.id%7]}]}>
                 <View style={styles.hBox}>
                     <View>
                         <Text style={[styles.text,{fontSize:30}]}>{props.child.name}</Text> 
@@ -25,7 +33,7 @@ export default function ChildIcon(props){
                 </View>
                 <View style={[styles.hBox,{alignItems:'flex-end'}]}>
                     <Image style={styles.genderIcon} source={(props.child.gender==="MALE"?require('../Icons/male.png'):require('../Icons/female.png'))}></Image>
-                    <Text style={[styles.text,styles.inProgress]}>{/*Today's questions answered or not?*/}In Progress</Text>
+                    <Text style={[styles.text,styles.inProgress]}>{status}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -35,11 +43,11 @@ export default function ChildIcon(props){
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        height:300,
+        height:200,
         width:'100%',
         justifyContent:'center',
         alignItems:'center',
-        padding:20,
+        padding:10,
     },
     text:{
         color:'white',
@@ -58,6 +66,17 @@ const styles = StyleSheet.create({
         paddingHorizontal:20,
         borderRadius:10,
         color:'red',
+        shadowOpacity:40,
+        shadowOffset: {width: 5,height: 5},
+        shadowColor:'black',
+        elevation:5,
+    },
+    completed:{
+        backgroundColor:'green',
+        padding:10,
+        paddingHorizontal:20,
+        borderRadius:10,
+        color:'white',
         shadowOpacity:40,
         shadowOffset: {width: 5,height: 5},
         shadowColor:'black',

@@ -37,6 +37,7 @@ export default function AddChild(props){
     const [name, setName] = new useState(props.route.params.name);
     const [dob, setDOB] = useState(props.route.params.dob);
     const [gender, setGender] = useState(props.route.params.gender);
+    const [disabler, setDisabler] = useState(false);
 
     const AddChild = ()=>{
         //Extra code which we will remove later.
@@ -107,6 +108,7 @@ export default function AddChild(props){
                                     [responseJson.id, name, dob.toDateString(), gender, user.id.toString()],
                                     function(tx, res) {
                                         console.log([responseJson.id, name, dob.toDateString(), gender, user.id.toString()],"Rows Affected :",res.rowsAffected);
+                                        setDisabler(false);
                                         Alert.alert("Success","Child Added",[
                                             { text: "ok", onPress: () => {
                                                 props.route.params.navigation.goBack();
@@ -209,6 +211,7 @@ export default function AddChild(props){
                                     [],
                                     function(tx, res) {
                                         console.log([responseJson.id, name, dob.toDateString(), gender, user.id.toString()],"Rows Affected :",res.rowsAffected);
+                                        setDisabler(false);
                                         Alert.alert("Success","Child Updated",[
                                             { text: "ok", onPress: () => {
                                                 props.route.params.navigation.goBack();
@@ -250,7 +253,7 @@ export default function AddChild(props){
                 <TextInput style={styles.inputBox} value={name} onChangeText={(e)=>{setName(e)}} placeholder="Name"></TextInput>
                 <DatePicker value={dob} setValue={setDOB}></DatePicker>
                 <GenderSelectionDropdown value={gender} setValue={setGender}></GenderSelectionDropdown>
-                <TouchableOpacity style={styles.registerButton} 
+                <TouchableOpacity style={[styles.registerButton]} disabled={disabler} 
                 onPress={()=>{
                     if(name===""){
                         Alert.alert("Warning", "Enter complete details.", [
@@ -259,6 +262,7 @@ export default function AddChild(props){
                         ]);
                         return;
                     }
+                    setDisabler(true);
                     props.route.params.name===''?AddChild():UpdateChild();
                 }}>
                     <Text style ={{color:'white',fontWeight:"bold"}}>{props.route.params.name===''?"Add":"Update"}</Text>

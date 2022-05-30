@@ -19,6 +19,7 @@ export default function Register(props){
     const [password,setPassword] = useState("");
     const [phn,setPhn] = useState("");
     const [address,setAddress] = useState("");
+    const [disabler, setDisabler] = useState(false);
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={false} />
@@ -33,7 +34,7 @@ export default function Register(props){
                 <TextInput value={password} onChangeText={(value)=>{setPassword(value)}} style={styles.inputBox} placeholder="Password"></TextInput>
                 <TextInput value={phn} onChangeText={(value)=>{setPhn(value)}} style={styles.inputBox} placeholder="Phone Number" keyboardType="phone-pad"></TextInput>
                 <TextInput value={address} onChangeText={(value)=>{setAddress(value)}} style={[styles.inputBox,{height:100}]} placeholder="Address" multiline={true} numberOfLines={4}></TextInput>
-                <TouchableOpacity style={styles.registerButton} onPress={()=>{
+                <TouchableOpacity style={styles.registerButton} disabled={disabler} onPress={()=>{
                     if(username===""||password==""||phn===""||address==""){
                         Alert.alert("Warning", "Incomplete Details.", [
                             { text: "cancel", onPress: () => {} },
@@ -41,6 +42,7 @@ export default function Register(props){
                         ]);
                         return;
                     }
+                    setDisabler(true);
                     fetch(`${route}/api/Users/SignUp`, {
                         method: 'POST',
                         headers: {
@@ -74,7 +76,7 @@ export default function Register(props){
                               function(tx, res) {
                                   console.log("Rows Affected :",res.rowsAffected)
                                   Alert.alert("Success", "You successfully registered your account.", [
-                                    { text: "ok", onPress: () => {props.navigation.goBack();} }
+                                    { text: "ok", onPress: () => {setDisabler(false);props.navigation.goBack();} }
                                 ]);
                               },  //Callback function to handle the result
                               (txObj, error) => console.log('Error', error)

@@ -14,17 +14,16 @@ import {
   import React, { useState } from "react";
   import Slider from "../Components/Slider";
   import Symptom from "../Components/Symptom.js";
-  import { data } from "../Data";
   import TopBar from "../Components/TopBar.js";
   import { openDatabase } from 'expo-sqlite';
-import { route } from "../assets/route";
+  import { route } from "../assets/route";
   const db = openDatabase('db.DualTracking')
   const { width } = Dimensions.get("window");
   let isCompletionMessageShowed = false;
   var index = 0;
   var nextIndex = 1;
   export default function Questionnaire(props) {
-    const [Item, setItem] = useState(data[0]);
+    const [Item, setItem] = useState(props.route.params.Questionnaires[0]);
     const [language, setLanguage] = useState("English");
     const [swipe, setSwipe] = useState(new Animated.Value(0));
     const [rotationAntiClockwise, setRotationAntiClockwise] = useState(
@@ -39,22 +38,47 @@ import { route } from "../assets/route";
       outputRange: ["0deg", "360deg"],
     });
     const SetValue = () => {
-      data[currentDataItem].Value = sliderValue;
+      if (props.route.params.Questionnaires[currentDataItem].Value!=null) {
+        db.transaction(function(txn) {
+          var query = `Update Responses Set value = ${sliderValue} where id = ${props.route.params.Questionnaires[currentDataItem].responseId};`
+          txn.executeSql(
+              query, //Query to execute as prepared statement
+              [],  
+              function(tx, res) {console.log("Updated Response",res);},  //Callback function to handle the result
+              (txObj, error) => console.log('Error', error)
+          );
+        });
+      }
+      else{
+        db.transaction(function(txn) {
+          var query = "INSERT into Responses(childId,questionId,value,date) VALUES(?,?,?,?)"
+          txn.executeSql(
+              query, //Query to execute as prepared statement
+              [props.route.params.childId, Item.id, Item.Value, new Date().toDateString()],  
+              function(tx, res) {
+                console.log("Inserted Response",res);
+                props.route.params.Questionnaires[currentDataItem].responseId = res.insertId;
+              },  //Callback function to handle the result
+              (txObj, error) => console.log('Error', error)
+          );
+        });
+      }
+      props.route.params.Questionnaires[currentDataItem].Value = sliderValue;
       if (!isCompletionMessageShowed) {
         let isUnAnsweredQuestionRemain = false;
-        for (let index = 0; index < data.length; index++) {
-          if (data[index].Value === null) {
+        for (let index = 0; index < props.route.params.Questionnaires.length; index++) {
+          if (props.route.params.Questionnaires[index].Value === null) {
             isUnAnsweredQuestionRemain = true;
             nextIndex = index;
-            index = data.length;
+            index = props.route.params.Questionnaires.length;
           }
         }
         if (!isUnAnsweredQuestionRemain) {
           isCompletionMessageShowed = true;
-          setItem(data[0]);
-          setSliderValue(data[0].Value === null ? 0 : data[0].Value);
+          setItem(props.route.params.Questionnaires[0]);
+          setSliderValue(props.route.params.Questionnaires[0].Value === null ? 0 : props.route.params.Questionnaires[0].Value);
           setCurrentDataItem(0);
-          setTranslation(data[0].Value * (245/10));
+          setTranslation(props.route.params.Questionnaires[0].Value * (245/10));
           nextIndex = 1;
           Alert.alert("All Done!!", "You have answered all today's question.", [
             {
@@ -66,21 +90,21 @@ import { route } from "../assets/route";
           ]);
           return;
         }
-        if (currentDataItem >= data.length - 1) {
+        if (currentDataItem >= props.route.params.Questionnaires.length - 1) {
           return;
         }
-        var currentItem = data[index];
-        var nextItem = data[nextIndex];
-        data[nextIndex] = currentItem;
-        data[index] = nextItem;
-        setItem(data[index]);
-        setSliderValue(data[index].Value === null ? 0 : data[index].Value);
+        var currentItem = props.route.params.Questionnaires[index];
+        var nextItem = props.route.params.Questionnaires[nextIndex];
+        props.route.params.Questionnaires[nextIndex] = currentItem;
+        props.route.params.Questionnaires[index] = nextItem;
+        setItem(props.route.params.Questionnaires[index]);
+        setSliderValue(props.route.params.Questionnaires[index].Value === null ? 0 : props.route.params.Questionnaires[index].Value);
         setCurrentDataItem(index);
-        setTranslation(data[index].Value * (245/10));
+        setTranslation(props.route.params.Questionnaires[index].Value * (245/10));
       }
       else{
-        setItem(data[currentDataItem]);
-        setTranslation(data[currentDataItem].Value * (245/10));
+        setItem(props.route.params.Questionnaires[currentDataItem]);
+        setTranslation(props.route.params.Questionnaires[currentDataItem].Value * (245/10));
       }
     };
     const GetQuestion = (Language) => {
@@ -96,15 +120,15 @@ import { route } from "../assets/route";
     //* Adding Bottom Bar Content
     for (
       let index = 0;
-      index < parseInt(data.length / 4) + (data.length % 4 === 0 ? 0 : 1);
+      index < parseInt(props.route.params.Questionnaires.length / 4) + (props.route.params.Questionnaires.length % 4 === 0 ? 0 : 1);
       index++
     ) {
       let rowContent = [];
       for (
         let i = 0;
         i <
-        (index === parseInt(data.length / 4) + (data.length % 4 === 0 ? 0 : 1) - 1
-          ? data.length % 4
+        (index === parseInt(props.route.params.Questionnaires.length / 4) + (props.route.params.Questionnaires.length % 4 === 0 ? 0 : 1) - 1
+          ? props.route.params.Questionnaires.length % 4
           : 4);
         i++
       ) {
@@ -113,7 +137,7 @@ import { route } from "../assets/route";
             setSliderValue={setSliderValue}
             currentDataItem={index * 4 + i}
             setCurrentDataItem={setCurrentDataItem}
-            data={data[index * 4 + i]}
+            data={props.route.params.Questionnaires[index * 4 + i]}
             setter={setItem}
             setTranslation = {setTranslation}
           />
@@ -227,7 +251,7 @@ import { route } from "../assets/route";
           isCompletionMessageShowed?
             <TouchableOpacity style={{alignItems: "center",marginHorizontal:100,borderRadius:30,borderWidth:2,padding:10}}  onPress={()=>{
               
-              db.transaction(function(txn) {
+              /*db.transaction(function(txn) {
                 var query = `Select * from user where id = '${props.route.params.userId}'`;
                 txn.executeSql(
                     query, //Query to execute as prepared statement
@@ -303,17 +327,7 @@ import { route } from "../assets/route";
                     (txObj, error) => console.log('Error', error)
                 );
             });
-              /*db.transaction(function(txn) {
-                data.forEach((value)=>{
-                  var query = "INSERT into Responses(childId,questionId,value,date) VALUES(?,?,?,?)"
-                  txn.executeSql(
-                    query, //Query to execute as prepared statement
-                    [0, value.id, value.Value, new Date],  
-                    function(tx, res) {console.log(res);},  //Callback function to handle the result
-                    (txObj, error) => console.log('Error', error)
-                  );
-                })
-              });
+              /*
               Alert.alert("All Done!!", "Data is submitted.", [
                 { text: "OK", onPress: () => console.log("Ok Pressed") },
               ]);*/

@@ -15,7 +15,8 @@ export let data=[
         Icon: require('./Icons/cough.png'),
         Animation:require('./LottieFilesGIFs/dry-cough.gif'),
         SevereLabel:'Severe cough',
-        MildLabel:'No cough'
+        MildLabel:'No cough',
+        responseId:null
     },
     {
         id:2,
@@ -33,7 +34,8 @@ export let data=[
         Icon:require('./Icons/fever.png'),
         Animation:require('./LottieFilesGIFs/fever.gif'),
         SevereLabel:'Severe fever',
-        MildLabel:'No fever'
+        MildLabel:'No fever',
+        responseId:null
     },
     {
         id:3,
@@ -51,7 +53,8 @@ export let data=[
         Icon:require('./Icons/fever.png'),
         Animation:require('./LottieFilesGIFs/fever.gif'),
         SevereLabel:'Double the size',
-        MildLabel:'No increase'
+        MildLabel:'No increase',
+        responseId:null
     },
     {
         id:4,
@@ -69,7 +72,8 @@ export let data=[
         Icon:require('./Icons/sweat.png'),
         Animation:require('./LottieFilesGIFs/sweat.gif'),
         SevereLabel:'Profuse sweating',
-        MildLabel:'No sweat'
+        MildLabel:'No sweat',
+        responseId:null
     },
     {
         id:5,
@@ -87,7 +91,8 @@ export let data=[
         Icon:require('./Icons/sweat.png'),
         Animation:require('./LottieFilesGIFs/sweat.gif'),
         SevereLabel:'Full appetite',
-        MildLabel:'No appetite'
+        MildLabel:'No appetite',
+        responseId:null
     },
     {
         id:6,
@@ -105,7 +110,8 @@ export let data=[
         Icon:require('./Icons/anxiety.png'),
         Animation:require('./LottieFilesGIFs/anxiety.gif'),
         SevereLabel:'Severe abdominal pain',
-        MildLabel:'No pain'
+        MildLabel:'No pain',
+        responseId:null
     },
     {
         id:7,
@@ -123,7 +129,8 @@ export let data=[
         Icon:require('./Icons/playfulness.png'),
         Animation:require('./LottieFilesGIFs/playfulness.gif'),
         SevereLabel:'Not at all difficult',
-        MildLabel:'Very difficult'
+        MildLabel:'Very difficult',
+        responseId:null
     },
     {
         id:9,
@@ -141,7 +148,8 @@ export let data=[
         Icon:require('./Icons/anxiety.png'),
         Animation:require('./LottieFilesGIFs/anxiety.gif'),
         SevereLabel:'Very much anxious',
-        MildLabel:'No anxious'
+        MildLabel:'No anxious',
+        responseId:null
     },
     {
         id:8,
@@ -159,7 +167,8 @@ export let data=[
         Icon:require('./Icons/playfulness.png'),
         Animation:require('./LottieFilesGIFs/playfulness.gif'),
         SevereLabel:'Not at all playful',
-        MildLabel:'Very playful'
+        MildLabel:'Very playful',
+        responseId:null
     },
     {
         id:10,
@@ -177,7 +186,8 @@ export let data=[
         Icon:require('./Icons/sleep.png'),
         Animation:require('./LottieFilesGIFs/sleep.gif'),
         SevereLabel:'Did not sleep well',
-        MildLabel:'Slept very well'
+        MildLabel:'Slept very well',
+        responseId:null
     },
     {
         id:11,
@@ -195,7 +205,8 @@ export let data=[
         Icon:require('./Icons/caring.png'),
         Animation:require('./LottieFilesGIFs/caring.gif'),
         SevereLabel:'Very tired',
-        MildLabel:'Not at all'
+        MildLabel:'Not at all',
+        responseId:null
     },
     {
         id:12,
@@ -213,7 +224,8 @@ export let data=[
         Icon:require('./Icons/shs.png'),
         Animation:require('./LottieFilesGIFs/shs.gif'),
         SevereLabel:'Severely exposed',
-        MildLabel:'Not at all'
+        MildLabel:'Not at all',
+        responseId:null
     },
     {
         id:13,
@@ -231,7 +243,8 @@ export let data=[
         Icon:require('./Icons/cooking.png'),
         Animation:require('./LottieFilesGIFs/cooking.gif'),
         SevereLabel:'Severely exposed',
-        MildLabel:'Not at all'
+        MildLabel:'Not at all',
+        responseId:null
     },
     {
         id:14,
@@ -249,7 +262,8 @@ export let data=[
         Icon:require('./Icons/traffic.png'),
         Animation:require('./LottieFilesGIFs/traffic.gif'),
         SevereLabel:'Severely exposed',
-        MildLabel:'Not at all'
+        MildLabel:'Not at all',
+        responseId:null
     },
     {
         id:15,
@@ -267,7 +281,8 @@ export let data=[
         Icon:require('./Icons/traffic.png'),
         Animation:require('./LottieFilesGIFs/traffic.gif'),
         SevereLabel:'Severely exposed',
-        MildLabel:'Not at all'
+        MildLabel:'Not at all',
+        responseId:null
     }
 ]
 
