@@ -47,6 +47,7 @@ export default function Family(props){
                                     if(response!=undefined){
                                         var ONE_DAY = 1000 * 60 * 60 * 24;
                                         var daysDiff = Math.floor(Math.abs(new Date().getTime() - new Date(response.date).getTime())/ONE_DAY);
+                                        Questionnaires[index].responseId = response.id;
                                         if(daysDiff===0){
                                             Questionnaires[index].Value = response.value;
                                         }
