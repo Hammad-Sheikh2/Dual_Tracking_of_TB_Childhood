@@ -38,25 +38,6 @@ export let data=[
         responseId:null
     },
     {
-        id:3,
-        frequency:7,
-        Name:'Cervical Lymph Nodes',
-        Question:{
-            English:'Have you noticed an increase in the size of the glands around the neck?',
-            Urdu:'کیا آپ نے گردن کے گرد غدود کے سائز میں اضافہ دیکھا ہے؟'
-        },
-        Audio:{
-            English:require('./audios/English/fever.mp3'),
-            Urdu:require('./audios/Urdu/fever.mp3'),
-        },
-        Value:null,
-        Icon:require('./Icons/fever.png'),
-        Animation:require('./LottieFilesGIFs/fever.gif'),
-        SevereLabel:'Double the size',
-        MildLabel:'No increase',
-        responseId:null
-    },
-    {
         id:4,
         frequency:1,
         Name:'Sweat',
@@ -84,11 +65,11 @@ export let data=[
             Urdu:'پچھلے ہفتے بچے کی بھوک کتنی بری طرح متاثر ہوئی؟'
         },
         Audio:{
-            English:require('./audios/English/sweat.mp3'),
-            Urdu:require('./audios/Urdu/sweat.mp3'),
+            English:require('./audios/English/appetite.mp3'),
+            Urdu:require('./audios/Urdu/appetite.mp3'),
         },
         Value:null,
-        Icon:require('./Icons/sweat.png'),
+        Icon:require('./Icons/appetite.png'),
         Animation:require('./LottieFilesGIFs/sweat.gif'),
         SevereLabel:'Full appetite',
         MildLabel:'No appetite',
@@ -103,11 +84,11 @@ export let data=[
             Urdu:'پچھلے ہفتے کے دوران ایک بچے کو پیٹ میں کتنی بری طرح درد ہوا؟'
         },
         Audio:{
-            English:require('./audios/English/anxiety.mp3'),
-            Urdu:require('./audios/Urdu/anxiety.mp3'),
+            English:require('./audios/English/abdominalPain.mp3'),
+            Urdu:require('./audios/Urdu/abdominalPain.mp3'),
         },
         Value:null,
-        Icon:require('./Icons/anxiety.png'),
+        Icon:require('./Icons/abdominal-pain.png'),
         Animation:require('./LottieFilesGIFs/anxiety.gif'),
         SevereLabel:'Severe abdominal pain',
         MildLabel:'No pain',
@@ -122,11 +103,11 @@ export let data=[
             Urdu:'پچھلے 15 دنوں میں ایک بچے کے لیے وزن بڑھانا کتنا مشکل تھا؟'
         },
         Audio:{
-            English:require('./audios/English/playfulness.mp3'),
-            Urdu:require('./audios/Urdu/playfulness.mp3'),
+            English:require('./audios/English/weight.mp3'),
+            Urdu:require('./audios/Urdu/weight.mp3'),
         },
         Value:null,
-        Icon:require('./Icons/playfulness.png'),
+        Icon:require('./Icons/gain-weight.png'),
         Animation:require('./LottieFilesGIFs/playfulness.gif'),
         SevereLabel:'Not at all difficult',
         MildLabel:'Very difficult',
@@ -247,6 +228,25 @@ export let data=[
         responseId:null
     },
     {
+        id:3,
+        frequency:7,
+        Name:'Cervical Lymph Nodes',
+        Question:{
+            English:'Have you noticed an increase in the size of the glands around the neck?',
+            Urdu:'کیا آپ نے گردن کے گرد غدود کے سائز میں اضافہ دیکھا ہے؟'
+        },
+        Audio:{
+            English:require('./audios/English/cervicalLymphNodes.mp3'),
+            Urdu:require('./audios/Urdu/cervicalLymphNodes.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/lymph-nodes.png'),
+        Animation:require('./LottieFilesGIFs/fever.gif'),
+        SevereLabel:'Double the size',
+        MildLabel:'No increase',
+        responseId:null
+    },
+    {
         id:14,
         frequency:1,
         Name:'Traffic pollution',
@@ -274,11 +274,11 @@ export let data=[
             Urdu:'پچھلے ہفتے آپ کا بچہ کتنا فضائی آلودگی کا شکار ہوا؟'
         },
         Audio:{
-            English:require('./audios/English/traffic.mp3'),
-            Urdu:require('./audios/Urdu/traffic.mp3'),
+            English:require('./audios/English/overall.mp3'),
+            Urdu:require('./audios/Urdu/overall.mp3'),
         },
         Value:null,
-        Icon:require('./Icons/traffic.png'),
+        Icon:require('./Icons/overall-exposure.png'),
         Animation:require('./LottieFilesGIFs/traffic.gif'),
         SevereLabel:'Severely exposed',
         MildLabel:'Not at all',
