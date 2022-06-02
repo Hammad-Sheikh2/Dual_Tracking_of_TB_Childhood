@@ -18,7 +18,7 @@ export default function ChildIcon(props){
     },[])
     return(
         <TouchableOpacity style={styles.container} onPress={()=>{
-            props.navigation.navigate('Questionnaire',{childId:props.child.id,userId:props.userId,Questionnaires:props.Questionnaires})
+            props.navigation.navigate('Questionnaire',{childId:props.child.id,userId:props.userId,Questionnaires:props.Questionnaires,navigation:props.navigation})
         }}>
             <View style={[styles.container,{padding:20,borderRadius:30,backgroundColor:colors[props.child.id%7]}]}>
                 <View style={styles.hBox}>

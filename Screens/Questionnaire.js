@@ -51,10 +51,10 @@ import {
       }
       else{
         db.transaction(function(txn) {
-          var query = "INSERT into Responses(childId,questionId,value,date) VALUES(?,?,?,?)"
+          var query = "INSERT into Responses(childId,questionId,value,date,isSent) VALUES(?,?,?,?,?);"
           txn.executeSql(
               query, //Query to execute as prepared statement
-              [props.route.params.childId, Item.id, Item.Value, new Date().toDateString()],  
+              [props.route.params.childId, Item.id, Item.Value, new Date().toDateString(),false],  
               function(tx, res) {
                 console.log("Inserted Response",res);
                 props.route.params.Questionnaires[currentDataItem].responseId = res.insertId;
@@ -250,87 +250,9 @@ import {
           {
           isCompletionMessageShowed?
             <TouchableOpacity style={{alignItems: "center",marginHorizontal:100,borderRadius:30,borderWidth:2,padding:10}}  onPress={()=>{
-              
-              /*db.transaction(function(txn) {
-                var query = `Select * from user where id = '${props.route.params.userId}'`;
-                txn.executeSql(
-                    query, //Query to execute as prepared statement
-                    [],
-                    function(tx, res) {
-                        console.log(res.rows._array[0]);
-                        let user = res.rows._array[0];
-                        fetch(`${route}/api/authentication/login`, {
-                            method: "POST",
-                            headers: {
-                              Accept: "application/json",
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              userName: user.name,
-                              password: user.pass,
-                            }),
-                        })
-                        .then((response) => {
-                            if (response.status === 200) {
-                                return response.json();
-                            } else if (response.status === 400) {
-                                throw new Error("Invalid Login Attempt");
-                            } else {
-                                throw new Error();
-                            }
-                            })
-                        .then((responseJson) => {
-                            console.log("ADD CHILD Login ---> DATA : ", responseJson);
-                            let responseArr = [];
-                            data.forEach((value)=>{
-                              responseArr.push({
-                                Id:0,
-                                Value:value.Value,
-                                Date: new Date().toISOString(),
-                                QuestionnaireId:value.id,
-                                ChildId:props.route.params.childId
-                              });
-                            })
-                            console.log(responseArr);
-                            fetch(`${route}/api/Responses/AddList`, {
-                                method: "POST",
-                                headers: {
-                                  Accept: "application/json",
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify(responseArr),
-                            })
-                            .then((response) => {
-                                if (response.status === 200) {
-                                } else if (response.status === 400) {
-                                    throw new Error("Invalid Login Attempt");
-                                } else {
-                                    throw new Error();
-                                }
-                                })
-                            .catch((error) => {
-                                Alert.alert("Error", error.toString(), [
-                                    { text: "cancel", onPress: () => {} },
-                                    { text: "ok", onPress: () => {} },
-                                ]);
-                                  console.log(error);
-                            });
-                        })
-                        .catch((error) => {
-                            Alert.alert("Error", error.toString(), [
-                                { text: "cancel", onPress: () => {} },
-                                { text: "ok", onPress: () => {} },
-                            ]);
-                            console.log(error);
-                        });
-                    },  //Callback function to handle the result
-                    (txObj, error) => console.log('Error', error)
-                );
-            });
-              /*
               Alert.alert("All Done!!", "Data is submitted.", [
-                { text: "OK", onPress: () => console.log("Ok Pressed") },
-              ]);*/
+                { text: "OK", onPress: () => {props.route.params.navigation.goBack()}},
+              ]);
             }}><Text style={{fontWeight:"bold"}}>Submit</Text></TouchableOpacity>:
             <React.Fragment></React.Fragment>
           }

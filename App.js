@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 const db = openDatabase('db.DualTracking')
 
 db.transaction(function(txn) {
-  var query = "CREATE TABLE IF NOT EXISTS Responses (id INTEGER PRIMARY KEY AUTOINCREMENT, childId INTEGER NOT NULL, questionId INTEGER NOT NULL, value INTEGER NOT NULL, date DATE NOT NULL);"
+  var query = "CREATE TABLE IF NOT EXISTS Responses (id INTEGER PRIMARY KEY AUTOINCREMENT, childId INTEGER NOT NULL, questionId INTEGER NOT NULL, value INTEGER NOT NULL, date DATE NOT NULL, isSent BIT NOT NULL);"
   txn.executeSql(
     query, //Query to execute as prepared statement
     [],  

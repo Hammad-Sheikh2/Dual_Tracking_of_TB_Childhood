@@ -19,6 +19,7 @@ import FamilySHeader from "../Components/FamilySHeader";
 import NetInfo from '@react-native-community/netinfo';
 import { openDatabase } from 'expo-sqlite';
 import { data } from "../Data";
+import { route } from "../assets/route";
 const db = openDatabase('db.DualTracking')
 export default function Family(props){
     const [Children,setChildren] = useState([]);
@@ -27,16 +28,15 @@ export default function Family(props){
         db.transaction(function(txn) {
             var query = `Select * from Children where userId = '${props.route.params.userId}';`;
               txn.executeSql(
-                query, //Query to execute as prepared statement
+                query, 
                 [],
                 function(tx, res) {
                     console.log("Family Screen: Saved Children Data : ",res.rows._array);
                     let temp = [];
                     res.rows._array.forEach((child)=>{
-                        //console.log(child);
                         query = `Select * , max(date) from Responses WHERE childId = ${child.id} GROUP BY questionId Order By date; `
                         txn.executeSql(
-                            query,  //Query to execute as prepared statement
+                            query,  
                             [],
                             function(tx, res) {
                                 console.log("Get Latest Responses of All Questionnaires of a Specific User :",res)
@@ -57,15 +57,14 @@ export default function Family(props){
                                         }
                                     }
                                 }
-                                console.log(Questionnaires);
                                 temp.push(<ChildIcon key={child.id} child={child} userId={props.route.params.userId} navigation={props.navigation} Questionnaires={Questionnaires}></ChildIcon>);
                                 setChildren([]);
                                 setChildren(temp);
-                            }, //Callback function to handle the result
+                            }, 
                             (txObj, error) => console.log('Error', error)
                         );
                     });
-                },  //Callback function to handle the result
+                }, 
                 (txObj, error) => console.log('Error', error)
             );
         });
@@ -73,7 +72,104 @@ export default function Family(props){
             console.log('Connection type', state.type);
             console.log('Is connected?', state.isConnected);
             if((state.type==='wifi'||state.type==='cellular')&&state.isConnected){
-                //*Send Responses..
+                db.transaction(function(txn) {
+                    var query = `Select * from user where id = '${props.route.params.userId}'`;
+                    txn.executeSql(
+                        query,
+                        [],
+                        function(tx, res) {
+                            console.log(res.rows._array[0]);
+                            let user = res.rows._array[0];
+                            fetch(`${route}/api/authentication/login`, {
+                                method: "POST",
+                                headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                userName: user.name,
+                                password: user.pass,
+                                }),
+                            })
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    return response.json();
+                                } else if (response.status === 400) {
+                                    throw new Error("Invalid Login Attempt");
+                                } else {
+                                    throw new Error();
+                                }
+                                })
+                            .then((responseJson) => {
+                                console.log("ADD CHILD Login ---> DATA : ", responseJson);
+                                db.transaction(function(txn) {
+                                    query = "Select * from Responses WHERE isSent = 0;";
+                                    txn.executeSql(
+                                        query,  
+                                        [],
+                                        function(tx, res) {
+                                            console.log("Get Responses of which are pending to send :",res)
+                                            let rows = res.rows._array;
+                                            let responseArr = [];
+                                            rows.forEach((value)=>{
+                                            responseArr.push({
+                                                Id:0,
+                                                Value:value.value,
+                                                Date: new Date(value.date).toISOString(),
+                                                QuestionnaireId:value.questionId,
+                                                ChildId:value.childId
+                                            });
+                                            })
+                                            console.log(responseArr);
+                                            fetch(`${route}/api/Responses/AddList`, {
+                                                method: "POST",
+                                                headers: {
+                                                Accept: "application/json",
+                                                "Content-Type": "application/json",
+                                                },
+                                                body: JSON.stringify(responseArr),
+                                            })
+                                            .then((response) => {
+                                                if (response.status === 200) {
+                                                    console.log(response.status);
+                                                    db.transaction(function(txn) {
+                                                        query = "Update Responses SET isSent = 1;";
+                                                        txn.executeSql(
+                                                            query,
+                                                            [],
+                                                            (tx, res) => console.log("Update sent status Rows Affected :",res.rowsAffected),
+                                                            (txObj, error) => console.log('Error', error)
+                                                        );
+                                                    });
+                                                } else if (response.status === 400) {
+                                                    throw new Error("Something went wrong.");
+                                                } else {
+                                                    throw new Error();
+                                                }
+                                                })
+                                            .catch((error) => {
+                                                Alert.alert("Error", error.toString(), [
+                                                    { text: "cancel", onPress: () => {} },
+                                                    { text: "ok", onPress: () => {} },
+                                                ]);
+                                                console.log(error);
+                                            });
+                                        }, 
+                                        (txObj, error) => console.log('Error', error)
+                                    );
+                                });
+                            })
+                            .catch((error) => {
+                                Alert.alert("Error", error.toString(), [
+                                    { text: "cancel", onPress: () => {} },
+                                    { text: "ok", onPress: () => {} },
+                                ]);
+                                console.log(error);
+                            });
+                        },
+                        (txObj, error) => console.log('Error', error)
+                    );
+                });
             }
         });
     },[isFocused])
