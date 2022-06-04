@@ -62,9 +62,10 @@ export default function Login(props) {
       }),
     })
       .then((response) => {
+        console.log(response.status)
         if (response.status === 200) {
           return response.json();
-        } else if (response.status === 400) {
+        } else if (response.status === 400 || response.status === 500) {
           throw new Error("Invalid Login Attempt");
         } else {
           throw new Error();
@@ -93,7 +94,12 @@ export default function Login(props) {
                         txn.executeSql(
                           query, //Query to execute as prepared statement
                           [child.id, child.name,(new Date(child.dateOfBirth)).toDateString(), child.gender, child.parentId],
-                          function(tx, res) {console.log([child.id, child.name,(new Date(child.dateOfBirth)).toDateString(), child.gender, child.parentId],"Rows Affected :",res.rowsAffected);},  //Callback function to handle the result
+                          function(tx, res) {
+                            console.log([child.id, child.name,(new Date(child.dateOfBirth)).toDateString(), child.gender, child.parentId],"Rows Affected :",res.rowsAffected);
+                            props.navigation.navigate("Family", {
+                              userId: responseJson.id.toString(),
+                            });
+                          },  //Callback function to handle the result
                           (txObj, error) => console.log('Error', error)
                         );
                         });
@@ -103,6 +109,11 @@ export default function Login(props) {
                   (txObj, error) => console.log("Error", error)
                 );
               }
+              else{
+                props.navigation.navigate("Family", {
+                  userId: responseJson.id.toString(),
+                });
+              }
             }, //Callback function to handle the result
             (txObj, error) => console.log("Error", error)
           );
@@ -111,9 +122,6 @@ export default function Login(props) {
         setPassword("");
         setDisabler(false);
         //Database storing for auto login.
-        props.navigation.navigate("Family", {
-          userId: responseJson.id.toString(),
-        });
       })
       .catch((error) => {
         Alert.alert("Error", error.toString(), [
@@ -153,7 +161,7 @@ export default function Login(props) {
           disabled={disabler}
           onPress={ValidateUser}
         >
-          <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
+          <Text style={{ color: "white", fontWeight: "bold" }}>{disabler?"Please wait...":"Login"}</Text>
         </TouchableOpacity>
       </View>
       <View style={[{ flex: 1 }, styles.registerBox]}>

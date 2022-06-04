@@ -92,7 +92,7 @@ export default function Register(props){
                     });
 
                 }}>
-                    <Text style ={{color:'white',fontWeight:"bold"}}>Register</Text>
+                    <Text style ={{color:'white',fontWeight:"bold"}}>{disabler?"Please wait...":"Register"}</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

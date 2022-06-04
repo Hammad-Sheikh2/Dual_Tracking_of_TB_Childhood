@@ -14,7 +14,7 @@ export default function ChildIcon(props){
     const [status,setStatus] = useState("");
     useEffect(()=>{
         let count = props.Questionnaires.filter(e => e.Value!=null).length;
-        setStatus(`${count} / ${props.Questionnaires.length}`);
+        setStatus(`${count} question(s) answered / ${props.Questionnaires.length}`);
     },[])
     return(
         <TouchableOpacity style={styles.container} onPress={()=>{

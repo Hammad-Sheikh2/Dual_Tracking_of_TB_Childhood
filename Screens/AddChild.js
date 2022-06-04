@@ -265,7 +265,7 @@ export default function AddChild(props){
                     setDisabler(true);
                     props.route.params.name===''?AddChild():UpdateChild();
                 }}>
-                    <Text style ={{color:'white',fontWeight:"bold"}}>{props.route.params.name===''?"Add":"Update"}</Text>
+                    <Text style ={{color:'white',fontWeight:"bold"}}>{disabler?"Please wait...":(props.route.params.name===''?"Add":"Update")}</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

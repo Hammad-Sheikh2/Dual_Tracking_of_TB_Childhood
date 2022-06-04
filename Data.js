@@ -42,8 +42,8 @@ export let data=[
         frequency:1,
         Name:'Sweat',
         Question:{
-            English:'How much did he/she sweat last night?',
-            Urdu:'کل رات اس نے کتنا پسینہ بہایا؟'
+            English:'How much did your child sweat last night?',
+            Urdu:'آپ کے بچے کو کل رات کتنا پسینہ آیا؟'
         },
         Audio:{
             English:require('./audios/English/sweat.mp3'),
@@ -61,8 +61,8 @@ export let data=[
         frequency:7,
         Name:'Appetite',
         Question:{
-            English:'How badly was the appetite of a child affected last week?',
-            Urdu:'پچھلے ہفتے بچے کی بھوک کتنی بری طرح متاثر ہوئی؟'
+            English:'How badly was the appetite of your child affected last week?',
+            Urdu:'پچھلے ہفتے آپ کے بچے کی بھوک کتنی بری طرح متاثر ہوئی؟'
         },
         Audio:{
             English:require('./audios/English/appetite.mp3'),
@@ -76,31 +76,12 @@ export let data=[
         responseId:null
     },
     {
-        id:6,
-        frequency:7,
-        Name:'Abdominal pain',
-        Question:{
-            English:'How badly a child experienced abdominal pain during the past week?',
-            Urdu:'پچھلے ہفتے کے دوران ایک بچے کو پیٹ میں کتنی بری طرح درد ہوا؟'
-        },
-        Audio:{
-            English:require('./audios/English/abdominalPain.mp3'),
-            Urdu:require('./audios/Urdu/abdominalPain.mp3'),
-        },
-        Value:null,
-        Icon:require('./Icons/abdominal-pain.png'),
-        Animation:require('./LottieFilesGIFs/anxiety.gif'),
-        SevereLabel:'Severe abdominal pain',
-        MildLabel:'No pain',
-        responseId:null
-    },
-    {
         id:7,
         frequency:14,
         Name:'Weight gain',
         Question:{
-            English:'How difficult was it for a kid to gain weight in past 15 days?',
-            Urdu:'پچھلے 15 دنوں میں ایک بچے کے لیے وزن بڑھانا کتنا مشکل تھا؟'
+            English:'How difficult was it for your kid to gain weight in past 15 days?',
+            Urdu:'پچھلے 15 دنوں میں آپ کے بچے کا وزن بڑھانا کتنا مشکل تھا؟'
         },
         Audio:{
             English:require('./audios/English/weight.mp3'),
@@ -130,25 +111,6 @@ export let data=[
         Animation:require('./LottieFilesGIFs/anxiety.gif'),
         SevereLabel:'Very much anxious',
         MildLabel:'No anxious',
-        responseId:null
-    },
-    {
-        id:8,
-        frequency:1,
-        Name:'Playfulness',
-        Question:{
-            English:'How playful was your kid today?',
-            Urdu:'آج آپ کا بچہ کتنا چنچل تھا؟'
-        },
-        Audio:{
-            English:require('./audios/English/playfulness.mp3'),
-            Urdu:require('./audios/Urdu/playfulness.mp3'),
-        },
-        Value:null,
-        Icon:require('./Icons/playfulness.png'),
-        Animation:require('./LottieFilesGIFs/playfulness.gif'),
-        SevereLabel:'Not at all playful',
-        MildLabel:'Very playful',
         responseId:null
     },
     {
@@ -206,6 +168,44 @@ export let data=[
         Animation:require('./LottieFilesGIFs/shs.gif'),
         SevereLabel:'Severely exposed',
         MildLabel:'Not at all',
+        responseId:null
+    },
+    {
+        id:8,
+        frequency:1,
+        Name:'Playfulness',
+        Question:{
+            English:'How playful was your kid today?',
+            Urdu:'آج آپ کا بچہ کتنا چنچل تھا؟'
+        },
+        Audio:{
+            English:require('./audios/English/playfulness.mp3'),
+            Urdu:require('./audios/Urdu/playfulness.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/playfulness.png'),
+        Animation:require('./LottieFilesGIFs/playfulness.gif'),
+        SevereLabel:'Not at all playful',
+        MildLabel:'Very playful',
+        responseId:null
+    },
+    {
+        id:6,
+        frequency:7,
+        Name:'Abdominal pain',
+        Question:{
+            English:'How badly has your child experienced abdominal pain during the past week?',
+            Urdu:'پچھلے ہفتے کے دوران آپ کے بچے کو کتنی بری طرح سے پیٹ میں درد ہوا ہے؟'
+        },
+        Audio:{
+            English:require('./audios/English/abdominalPain.mp3'),
+            Urdu:require('./audios/Urdu/abdominalPain.mp3'),
+        },
+        Value:null,
+        Icon:require('./Icons/abdominal-pain.png'),
+        Animation:require('./LottieFilesGIFs/anxiety.gif'),
+        SevereLabel:'Severe abdominal pain',
+        MildLabel:'No pain',
         responseId:null
     },
     {

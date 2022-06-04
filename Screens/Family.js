@@ -3,14 +3,10 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
-    Animated,
-    Easing,
-    Dimensions,
     StatusBar,
     ScrollView,
     TouchableOpacity,
-    TextInput
+    Image
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
@@ -177,13 +173,29 @@ export default function Family(props){
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={false} />
             <FamilySHeader userId={props.route.params.userId} navigation={props.navigation}></FamilySHeader>
-            <ScrollView style={styles.scrollView} centerContent={true} bounces={true}>
-                {Children}
+            <ScrollView contentContainerStyle={styles.scrollViewContent} style={styles.scrollView} centerContent={true} bounces={true}>
+                {Children.length===0?<NoChildBox userId={props.route.params.userId} navigation={props.navigation}></NoChildBox>:Children}
             </ScrollView>
         </SafeAreaView>
     );
 }
 
+function NoChildBox(props){
+    return(
+        <View style={[styles.container,{justifyContent:'center'}]}>
+            <View style={{width:'80%',padding:15,alignItems:'center',marginTop:100}}>
+                <Image style={{width:200,height:200,resizeMode:'contain'}} source={require("../Icons/no-user.png")}></Image>
+                <Text style={{fontSize:25,fontWeight:'bold'}}>No Child Found</Text>
+                <Text>Click the below button to register a child.</Text>
+                <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:'60%',backgroundColor:'#000018',marginTop:10,paddingVertical:10,borderRadius:5}} onPress ={()=>{
+                    props.navigation.navigate("AddChild",{name:"",dob:new Date,gender:"MALE",userId:props.userId,navigation:props.navigation});
+                }}>
+                    <Text style={{color:'white'}}>Register Child</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+}
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -191,6 +203,10 @@ const styles = StyleSheet.create({
     },
     scrollView:{
         flex:1,
-        width:'100%',
+        width:'100%'
+    },
+    scrollViewContent:{
+        justifyContent:'center',
+        alignContent:'center'
     }
 })
