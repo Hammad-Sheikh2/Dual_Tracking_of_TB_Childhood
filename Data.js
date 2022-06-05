@@ -13,7 +13,7 @@ export let data=[
         },
         Value:null,
         Icon: require('./Icons/cough.png'),
-        Animation:require('./LottieFilesGIFs/dry-cough.gif'),
+        Animation:require('./LottieFilesGIFs/cough.gif'),
         SevereLabel:'Severe cough',
         MildLabel:'No cough',
         responseId:null
@@ -51,7 +51,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/sweat.png'),
-        Animation:require('./LottieFilesGIFs/sweat.gif'),
+        Animation:require('./LottieFilesGIFs/sweat.png'),
         SevereLabel:'Profuse sweating',
         MildLabel:'No sweat',
         responseId:null
@@ -70,7 +70,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/appetite.png'),
-        Animation:require('./LottieFilesGIFs/sweat.gif'),
+        Animation:require('./LottieFilesGIFs/appetite.gif'),
         SevereLabel:'Full appetite',
         MildLabel:'No appetite',
         responseId:null
@@ -89,7 +89,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/gain-weight.png'),
-        Animation:require('./LottieFilesGIFs/playfulness.gif'),
+        Animation:require('./LottieFilesGIFs/weight-gain.gif'),
         SevereLabel:'Not at all difficult',
         MildLabel:'Very difficult',
         responseId:null
@@ -146,7 +146,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/caring.png'),
-        Animation:require('./LottieFilesGIFs/caring.gif'),
+        Animation:require('./LottieFilesGIFs/care.gif'),
         SevereLabel:'Very tired',
         MildLabel:'Not at all',
         responseId:null
@@ -203,7 +203,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/abdominal-pain.png'),
-        Animation:require('./LottieFilesGIFs/anxiety.gif'),
+        Animation:require('./LottieFilesGIFs/abdominal-pain.gif'),
         SevereLabel:'Severe abdominal pain',
         MildLabel:'No pain',
         responseId:null
@@ -241,7 +241,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/lymph-nodes.png'),
-        Animation:require('./LottieFilesGIFs/fever.gif'),
+        Animation:require('./LottieFilesGIFs/lymph-nodes.gif'),
         SevereLabel:'Double the size',
         MildLabel:'No increase',
         responseId:null
@@ -260,7 +260,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/traffic.png'),
-        Animation:require('./LottieFilesGIFs/traffic.gif'),
+        Animation:require('./LottieFilesGIFs/traffic-pollution.gif'),
         SevereLabel:'Severely exposed',
         MildLabel:'Not at all',
         responseId:null
@@ -279,7 +279,7 @@ export let data=[
         },
         Value:null,
         Icon:require('./Icons/overall-exposure.png'),
-        Animation:require('./LottieFilesGIFs/traffic.gif'),
+        Animation:require('./LottieFilesGIFs/overall-exposure.png'),
         SevereLabel:'Severely exposed',
         MildLabel:'Not at all',
         responseId:null
