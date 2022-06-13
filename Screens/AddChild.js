@@ -38,102 +38,32 @@ export default function AddChild(props){
     const [dob, setDOB] = useState(props.route.params.dob);
     const [gender, setGender] = useState(props.route.params.gender);
     const [disabler, setDisabler] = useState(false);
-
     const AddChild = ()=>{
         //Extra code which we will remove later.
         db.transaction(function(txn) {
-            var query = `Select * from user where id = '${props.route.params.userId}'`;
+            var nextID
+            var query = "Select Max(id) as nextID from Children;"
             txn.executeSql(
                 query, //Query to execute as prepared statement
                 [],
                 function(tx, res) {
-                    console.log(res.rows._array[0]);
-                    let user = res.rows._array[0];
-                    fetch(`${route}/api/authentication/login`, {
-                        method: "POST",
-                        headers: {
-                          Accept: "application/json",
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          userName: user.name,
-                          password: user.pass,
-                        }),
-                    })
-                    .then((response) => {
-                        if (response.status === 200) {
-                            return response.json();
-                        } else if (response.status === 400) {
-                            throw new Error("Invalid Login Attempt");
-                        } else {
-                            throw new Error();
-                        }
-                        })
-                    .then((responseJson) => {
-                        console.log("ADD CHILD Login ---> DATA : ", responseJson);
-                        console.log({
-                            name: name,
-                            parentId: user.id,
-                            dateOfBirth:dob.toISOString(),
-                            gender:gender
-                        });
-                        fetch(`${route}/api/Children/Add`, {
-                            method: "POST",
-                            headers: {
-                              Accept: "application/json",
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              name: name,
-                              parentId: user.id,
-                              dateOfBirth:dob.toISOString(),
-                              gender:gender
-                            }),
-                        })
-                        .then((response) => {
-                            if (response.status === 200) {
-                                return response.json();
-                            } else if (response.status === 400) {
-                                throw new Error("Invalid Login Attempt");
-                            } else {
-                                throw new Error();
-                            }
-                            })
-                        .then((responseJson) => {
-                            console.log("ADD CHILD ---> DATA : ", responseJson);
-                            db.transaction(function(txn) {
-                                var query = "INSERT into Children(id,name,dob,gender,userId) VALUES(?,?,?,?,?);"
-                                txn.executeSql(
-                                    query, //Query to execute as prepared statement
-                                    [responseJson.id, name, dob.toDateString(), gender, user.id.toString()],
-                                    function(tx, res) {
-                                        console.log([responseJson.id, name, dob.toDateString(), gender, user.id.toString()],"Rows Affected :",res.rowsAffected);
-                                        setDisabler(false);
-                                        Alert.alert("Success","Child Added",[
-                                            { text: "ok", onPress: () => {
-                                                props.route.params.navigation.goBack();
-                                            } },
-                                        ]);
-                                    },  //Callback function to handle the result
-                                    (txObj, error) => console.log('Error', error)
-                                );
-                            });
-                        })
-                        .catch((error) => {
-                            Alert.alert("Error", error.toString(), [
-                                { text: "cancel", onPress: () => {} },
-                                { text: "ok", onPress: () => {} },
-                            ]);
-                              console.log(error);
-                        });
-                    })
-                    .catch((error) => {
-                        Alert.alert("Error", error.toString(), [
-                            { text: "cancel", onPress: () => {} },
-                            { text: "ok", onPress: () => {} },
-                        ]);
-                        console.log(error);
-                    });
+                    console.log(res.rows._array[0].nextID);
+                    nextID = res.rows._array[0].nextID==null?1:(res.rows._array[0].nextID+1);
+                },  //Callback function to handle the result
+                (txObj, error) => console.log('Error', error)
+            );
+            query = "INSERT into Children(id,name,dob,gender,userId) VALUES(?,?,?,?,?);"
+            txn.executeSql(
+                query, //Query to execute as prepared statement
+                [nextID, name, dob.toDateString(), gender, props.route.params.userId],
+                function(tx, res) {
+                    console.log([nextID, name, dob.toDateString(), gender, props.route.params.userId],"Rows Affected :",res.rowsAffected);
+                    setDisabler(false);
+                    Alert.alert("Success","Child Added",[
+                        { text: "ok", onPress: () => {
+                            props.route.params.navigation.goBack();
+                        } },
+                    ]);
                 },  //Callback function to handle the result
                 (txObj, error) => console.log('Error', error)
             );
@@ -142,101 +72,18 @@ export default function AddChild(props){
     const UpdateChild = ()=>{
         //Extra code which we will remove later.
         db.transaction(function(txn) {
-            var query = `Select * from user where id = '${props.route.params.userId}'`;
+            var query = `Update Children SET name = '${name}', dob = '${dob.toDateString()}', gender = '${gender}' WHERE id = ${props.route.params.id};`;
             txn.executeSql(
                 query, //Query to execute as prepared statement
                 [],
                 function(tx, res) {
-                    console.log(res.rows._array[0]);
-                    let user = res.rows._array[0];
-                    fetch(`${route}/api/authentication/login`, {
-                        method: "POST",
-                        headers: {
-                          Accept: "application/json",
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          userName: user.name,
-                          password: user.pass,
-                        }),
-                    })
-                    .then((response) => {
-                        if (response.status === 200) {
-                            return response.json();
-                        } else if (response.status === 400) {
-                            throw new Error("Invalid Login Attempt");
-                        } else {
-                            throw new Error();
-                        }
-                        })
-                    .then((responseJson) => {
-                        console.log("ADD CHILD Login ---> DATA : ", responseJson);
-                        console.log({
-                            id:props.route.params.id,
-                            name: name,
-                            parentId: user.id,
-                            dateOfBirth:dob.toISOString(),
-                            gender:gender
-                        });
-                        console.log(`${route}/api/Children/Update/${props.route.params.id}`);
-                        fetch(`${route}/api/Children/Update/${props.route.params.id}`, {
-                            method: "PUT",
-                            headers: {
-                              Accept: "application/json",
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                id:props.route.params.id,
-                                name: name,
-                                parentId: user.id,
-                                dateOfBirth:dob.toISOString(),
-                                gender:gender
-                            }),
-                        })
-                        .then((response) => {
-                            if (response.status === 200) {
-                                return response.json();
-                            } else if (response.status === 400) {
-                                throw new Error("Invalid Login Attempt");
-                            } else {
-                                throw new Error();
-                            }
-                            })
-                        .then((responseJson) => {
-                            console.log("ADD CHILD ---> DATA : ", responseJson);
-                            db.transaction(function(txn) {
-                                var query = `Update Children SET name = '${name}', dob = '${dob.toDateString()}', gender = '${gender}' WHERE id = ${props.route.params.id};`;
-                                txn.executeSql(
-                                    query, //Query to execute as prepared statement
-                                    [],
-                                    function(tx, res) {
-                                        console.log([responseJson.id, name, dob.toDateString(), gender, user.id.toString()],"Rows Affected :",res.rowsAffected);
-                                        setDisabler(false);
-                                        Alert.alert("Success","Child Updated",[
-                                            { text: "ok", onPress: () => {
-                                                props.route.params.navigation.goBack();
-                                            } },
-                                        ]);
-                                    },  //Callback function to handle the result
-                                    (txObj, error) => console.log('Error', error)
-                                );
-                            });
-                        })
-                        .catch((error) => {
-                            Alert.alert("Error", error.toString(), [
-                                { text: "cancel", onPress: () => {} },
-                                { text: "ok", onPress: () => {} },
-                            ]);
-                              console.log(error);
-                        });
-                    })
-                    .catch((error) => {
-                        Alert.alert("Error", error.toString(), [
-                            { text: "cancel", onPress: () => {} },
-                            { text: "ok", onPress: () => {} },
-                        ]);
-                        console.log(error);
-                    });
+                    console.log([1, name, dob.toDateString(), gender, props.route.params.userId],"Rows Affected :",res.rowsAffected);
+                    setDisabler(false);
+                    Alert.alert("Success","Child Updated",[
+                        { text: "ok", onPress: () => {
+                            props.route.params.navigation.goBack();
+                        } },
+                    ]);
                 },  //Callback function to handle the result
                 (txObj, error) => console.log('Error', error)
             );

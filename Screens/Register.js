@@ -43,54 +43,20 @@ export default function Register(props){
                         return;
                     }
                     setDisabler(true);
-                    fetch(`${route}/api/Users/SignUp`, {
-                        method: 'POST',
-                        headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                        userName: username,
-                        password: password,
-                        phoneNumber:phn,
-                        address:address
-                        }),
-                    }).then((response) => {
-                        console.log(response.status);
-                        if(response.status===200)
-                            return response.json();
-                        else if(response.status===400){
-                            throw new Error("User Already Registered");
-                        }
-                        else{
-                            throw new Error();
-                        }
-                    })
-                    .then((responseJson) => {
-                        console.log('Registered User Data :', responseJson)
-                        db.transaction(function(txn) {
-                            var query = "INSERT into User(id,name,pass) VALUES(?,?,?);";
-                            txn.executeSql(
-                              query, //Query to execute as prepared statement
-                              [`${responseJson.id.toString()}`,username,password],
-                              function(tx, res) {
-                                  console.log("Rows Affected :",res.rowsAffected)
-                                  Alert.alert("Success", "You successfully registered your account.", [
-                                    { text: "ok", onPress: () => {setDisabler(false);props.navigation.goBack();} }
-                                ]);
-                              },  //Callback function to handle the result
-                              (txObj, error) => console.log('Error', error)
-                            );
-                        });
-                    })
-                    .catch(error => {
-                        Alert.alert("Error", error.toString(), [
-                            { text: "cancel", onPress: () => {} },
-                            { text: "ok", onPress: () => {} }
-                        ]);
-                        console.log(error)
+                    db.transaction(function(txn) {
+                        var query = "INSERT into User(id,name,pass) VALUES(?,?,?);";
+                        txn.executeSql(
+                          query, //Query to execute as prepared statement
+                          [`test-id`,username,password],
+                          function(tx, res) {
+                              console.log("Rows Affected :",res.rowsAffected)
+                              Alert.alert("Success", "You successfully registered your account.", [
+                                { text: "ok", onPress: () => {setDisabler(false);props.navigation.goBack();} }
+                            ]);
+                          },  //Callback function to handle the result
+                          (txObj, error) => console.log('Error', error)
+                        );
                     });
-
                 }}>
                     <Text style ={{color:'white',fontWeight:"bold"}}>{disabler?"Please wait...":"Register"}</Text>
                 </TouchableOpacity>
