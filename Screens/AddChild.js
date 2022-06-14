@@ -50,7 +50,12 @@ export default function AddChild(props){
                     console.log(res.rows._array[0].nextID);
                     nextID = res.rows._array[0].nextID==null?1:(res.rows._array[0].nextID+1);
                 },  //Callback function to handle the result
-                (txObj, error) => console.log('Error', error)
+                (txObj, error) => {
+                    console.log('Error', error)
+                    Alert.alert(`Error : ${error.code}`,error.message,[
+                        { text: "ok", onPress: () => {} },
+                    ]);
+                }
             );
             query = "INSERT into Children(id,name,dob,gender,userId) VALUES(?,?,?,?,?);"
             txn.executeSql(
@@ -65,7 +70,12 @@ export default function AddChild(props){
                         } },
                     ]);
                 },  //Callback function to handle the result
-                (txObj, error) => console.log('Error', error)
+                (txObj, error) => {
+                    console.log('Error', error)
+                    Alert.alert(`Error : ${error.code}`,error.message,[
+                        { text: "ok", onPress: () => {} },
+                    ]);
+                }
             );
         });
     }
@@ -85,7 +95,12 @@ export default function AddChild(props){
                         } },
                     ]);
                 },  //Callback function to handle the result
-                (txObj, error) => console.log('Error', error)
+                (txObj, error) => {
+                    console.log('Error', error);
+                    Alert.alert(`Error : ${error.code}`,error.message,[
+                        { text: "ok", onPress: () => {} },
+                    ]);
+                }
             );
         });
     }

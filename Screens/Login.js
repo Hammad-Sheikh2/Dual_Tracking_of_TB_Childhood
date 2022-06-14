@@ -37,7 +37,12 @@ export default function Login(props) {
             ok = true;
           }
         }, //Callback function to handle the result
-        (txObj, error) => console.log("Error", error)
+        (txObj, error) => {
+          console.log("Error", error)
+          Alert.alert(`Error : ${error.code}`,error.message,[
+            { text: "ok", onPress: () => {} },
+          ]);
+        }
       );
     });
   }, []);
@@ -61,6 +66,11 @@ export default function Login(props) {
             props.navigation.navigate("Family", {
               userId: res.rows._array[0].id,
             });
+          }
+          else{
+            Alert.alert(`Error`,"Invalid Login Credentials",[
+              { text: "ok", onPress: () => {} },
+            ]);
           }
         }, //Callback function to handle the result
         (txObj, error) => {
