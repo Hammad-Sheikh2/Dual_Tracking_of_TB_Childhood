@@ -76,7 +76,7 @@ export default TopBar = (props) => {
       </Modal>
       <View style={styles.TopBar}>
         <TouchableOpacity
-          style={{flexDirection:'row',borderColor:'white',borderRadius:'50%',borderWidth:1,paddingHorizontal:5,paddingVertical:1}}
+          style={{flexDirection:'row',borderColor:'white',borderRadius:30,borderWidth:1,paddingHorizontal:5,paddingVertical:1}}
           onPress={() => {
             setModalVisible(!modalVisible);
           }}
