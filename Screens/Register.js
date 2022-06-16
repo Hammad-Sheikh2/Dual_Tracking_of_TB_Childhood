@@ -12,7 +12,30 @@ import React, { useState } from "react";
 import { Link } from "@react-navigation/native";
 import { openDatabase } from 'expo-sqlite';
 import { route } from "../assets/route";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 const db = openDatabase('db.DualTracking')
+
+const useTogglePasswordVisibility = () => {
+    const [passwordVisibility, setPasswordVisibility] = useState(true);
+    const [rightIcon, setRightIcon] = useState('eye');
+  
+    const handlePasswordVisibility = () => {
+      if (rightIcon === 'eye') {
+        setRightIcon('eye-off');
+        setPasswordVisibility(!passwordVisibility);
+      } else if (rightIcon === 'eye-off') {
+        setRightIcon('eye');
+        setPasswordVisibility(!passwordVisibility);
+      }
+    };
+  
+    return {
+      passwordVisibility,
+      rightIcon,
+      handlePasswordVisibility
+    };
+};
+
 
 export default function Register(props){
     const [username,setUsername] = useState("");
@@ -20,6 +43,7 @@ export default function Register(props){
     const [phn,setPhn] = useState("");
     const [address,setAddress] = useState("");
     const [disabler, setDisabler] = useState(false);
+    const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={false} />
@@ -31,7 +55,21 @@ export default function Register(props){
             </View>
             <View style={[{flex:4},styles.registerBox]}>
                 <TextInput value={username} onChangeText={(value)=>{setUsername(value)}} style={styles.inputBox} placeholder="Username"></TextInput>
-                <TextInput value={password} onChangeText={(value)=>{setPassword(value)}} style={styles.inputBox} placeholder="Password"></TextInput>
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={[styles.inputBox]}
+                        value={password} 
+                        onChangeText={(value)=>{setPassword(value)}}
+                        textContentType="newPassword"
+                        secureTextEntry={passwordVisibility}
+                        placeholder="Password"
+                        enablesReturnKeyAutomatically
+                    >
+                    </TextInput>
+                    <TouchableOpacity onPress={handlePasswordVisibility}>
+                        <MaterialCommunityIcons name={rightIcon} size={22} color="#232323" />
+                    </TouchableOpacity>
+                </View>
                 <TextInput value={phn} onChangeText={(value)=>{setPhn(value)}} style={styles.inputBox} placeholder="Phone Number" keyboardType="phone-pad"></TextInput>
                 <TextInput value={address} onChangeText={(value)=>{setAddress(value)}} style={[styles.inputBox,{height:100}]} placeholder="Address" multiline={true} numberOfLines={4}></TextInput>
                 <TouchableOpacity style={styles.registerButton} disabled={disabler} onPress={()=>{
@@ -135,5 +173,13 @@ const styles = StyleSheet.create({
     imageLogo:{
         width: 250,
         height: 250
+    },
+    inputContainer: {
+        backgroundColor: 'white',
+        width: '90%',
+        marginVertical:5,
+        borderRadius: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
     }
 })
