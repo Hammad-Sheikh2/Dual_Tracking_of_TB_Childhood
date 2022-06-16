@@ -267,6 +267,7 @@ import {
           <View style={styles.BottomBar}>
             <View style={styles.BottomBarRow}>
               <TouchableOpacity
+                style={{paddingHorizontal:'100%',paddingVertical:10}}
                 onPress = {() => {
                   animateViewSwipe();
                 }}

@@ -76,6 +76,7 @@ export default TopBar = (props) => {
       </Modal>
       <View style={styles.TopBar}>
         <TouchableOpacity
+          style={{flexDirection:'row',borderColor:'white',borderRadius:'50%',borderWidth:1,paddingHorizontal:5,paddingVertical:1}}
           onPress={() => {
             setModalVisible(!modalVisible);
           }}
@@ -84,6 +85,7 @@ export default TopBar = (props) => {
             style={{ width: 20, height: 20 }}
             source={require("../Icons/translate.png")}
           />
+          <Text style={{color:'white',paddingLeft:10}}>{props.Language}</Text>
         </TouchableOpacity>
         <TouchableOpacity disabled={disabler} onPress={() => PlaySound()}>
           <Image
